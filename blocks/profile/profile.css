@@ -1,0 +1,4 @@
+.profile {
+    width: calc(100% - 200px*2);
+    display: flex;
+}
