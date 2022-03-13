@@ -7,21 +7,81 @@
   <link rel="stylesheet" href="pages/index.css">
 </head>
 <body class="root">
+    <section class="popup">
+        <form class="popup__container">
+            <batton class="popup__closed"></batton>            
+            <h2 class="popup__title">Редактировать профиль</h2>
+            <fieldset class="popup__user-info">
+                <input class="popup__name" type="text" placeholder="Жак-Ив Кусто">
+                <input class="popup__profession" type="text" placeholder="Исследователь океана">
+            </fieldset>
+            <button class="popup__saved" type="submit">Сохранить</button>
+        </form>
+        <div class="popup__overlay"></div>
+    </section>
     <header class="header root__container root__container_margins_for-header">
         <img class="header__logo" src="./images/Vector.svg" alt="логотип Место">
     </header>
-    <section class="profile root__container root__container_margins_for-profile">
-        <div class="profile__avatar"></div>
-        <div class="profile__info">
-            <h1 class="profile__name">Жак-Ив Кусто</h1>
-            <p class="profile__profession">Исследователь океана</p>
-        </div>        
-        <div class="edit-batton">
-            <img class="edit-batton__pen" src="./images/pen Vector.svg" alt="изображение ручки">
-        </div>
-        <div class="add-batton">
+    <main class="content">
+        <section class="profile root__container root__container_margins_for-profile">
+            <div class="profile__avatar"></div>
+            <div class="profile__info">
+                <h1 class="profile__name">Жак-Ив Кусто</h1>
+                <p class="profile__profession">Исследователь океана</p>
+            </div>        
+            <button class="edit-batton profile__container">
+                <img class="edit-batton__pen" src="./images/pen Vector.svg" alt="изображение ручки">
+            </button>
+            <button class="add-batton">
                 <img class="add-batton__cross" src="./images/cross Vector.svg" alt="крестик">
+            </button>
+        </section>
+        <section class="elements root__container root__container_margins_for-elements">
+            <div class="elements__element">
+                <img class="elements__foto" src="./images/Карачаевск.jpg" alt="фото Карачаевска">
+                <div class="elements__group">
+                    <h2 class="elements__title">Карачаевск</h2>
+                    <button class="elements__like"></button>
+                </div>
             </div>
-        </div>
-    </section>
+            <div class="elements__element">
+                <img class="elements__foto" src="./images/Эльбрус.jpg" alt="фото горы Эльбрус">
+                <div class="elements__group">
+                    <h2 class="elements__title">Гора Эльбрус</h2>
+                    <button class="elements__like"></button>
+                </div>
+            </div>
+            <div class="elements__element">
+                <img class="elements__foto" src="./images/Домбай.jpg" alt="фото горы Домбай">
+                <div class="elements__group">
+                    <h2 class="elements__title">Домбай</h2>
+                    <button class="elements__like"></button>
+                </div>
+            </div>
+            <div class="elements__element">
+                <img class="elements__foto" src="./images/Эльбрус.jpg" alt="фото горы Эльбрус">
+                <div class="elements__group">
+                    <h2 class="elements__title">Гора Эльбрус</h2>
+                    <button class="elements__like"></button>
+                </div>
+            </div>
+            <div class="elements__element">
+                <img class="elements__foto" src="./images/Домбай.jpg" alt="фото горы Домбай">
+                <div class="elements__group">
+                    <h2 class="elements__title">Домбай</h2>
+                    <button class="elements__like"></button>
+                </div>
+            </div>
+            <div class="elements__element">
+                <img class="elements__foto" src="./images/Карачаевск.jpg" alt="фото Карачаевска">
+                <div class="elements__group">
+                    <h2 class="elements__title">Карачаево-Черкесский округ</h2>
+                    <button class="elements__like"></button>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer root__container root__container_margins_for-footer">
+        <h2 class="footer__info" lang="en">&copy; 2022 Mesto Russia</h2>
+    </footer>
 </body>

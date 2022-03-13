@@ -1,0 +1,10 @@
+.popup {
+    display: flex;
+    /* align-items: center; */
+    width: 100vw;
+    height: 100vh;
+    margin: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
