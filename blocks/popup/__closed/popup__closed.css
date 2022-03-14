@@ -1,14 +1,16 @@
 .popup__closed {
     width: 32px;
     height: 32px;
-    background-image: url(../../../images/Close\ Icon.svg);
+    background-image: url(../../../images/close.svg);
     background-size: cover;
-    background-color: none;
+    background-color: transparent;
     border: none;
     position: absolute;
     top: -40px;
     right: -40px;
     opacity: 1;
+    margin: 0;
+    padding: 0;
 }
 
 .popup__closed:hover {

@@ -7,9 +7,15 @@
 @import url(../blocks/root/__container/_margins/root__container_margins_for-elements.css);
 @import url(../blocks/root/__container/_margins/root__container_margins_for-footer.css);
 @import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/_opened/popup_opened.css);
 @import url(../blocks/popup/__container/popup__container.css);
 @import url(../blocks/popup/__overlay/popup__overlay.css);
 @import url(../blocks/popup/__closed/popup__closed.css);
+@import url(../blocks/popup/__title/popup__title.css);
+@import url(../blocks/popup/__user-info/popup__user-info.css);
+@import url(../blocks/popup/__fullname/popup__fullname.css);
+@import url(../blocks/popup/__profession/popup__profession.css);
+@import url(../blocks/popup/__saved/popup__saved.css);
 @import url(../blocks/header/header.css);
 @import url(../blocks/header/__logo/header__logo.css);
 @import url(../blocks/profile/profile.css);

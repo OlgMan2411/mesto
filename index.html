@@ -8,19 +8,19 @@
 </head>
 <body class="root">
     <section class="popup">
-        <form class="popup__container">
-            <batton class="popup__closed"></batton>            
+        <form class="popup__container">         
             <h2 class="popup__title">Редактировать профиль</h2>
             <fieldset class="popup__user-info">
-                <input class="popup__name" type="text" placeholder="Жак-Ив Кусто">
-                <input class="popup__profession" type="text" placeholder="Исследователь океана">
+                <input class="popup__fullname" type="text" name="fullname" placeholder="Жак-Ив Кусто">
+                <input class="popup__profession" type="text" name="profession" placeholder="Исследователь океана">
             </fieldset>
-            <button class="popup__saved" type="submit">Сохранить</button>
+            <button class="popup__saved" type="submit" name="save">Сохранить</button>            
+            <button class="popup__closed" type="button" name="close"></button>
         </form>
         <div class="popup__overlay"></div>
     </section>
     <header class="header root__container root__container_margins_for-header">
-        <img class="header__logo" src="./images/Vector.svg" alt="логотип Место">
+        <img class="header__logo" src="./images/vector.svg" alt="логотип Место">
     </header>
     <main class="content">
         <section class="profile root__container root__container_margins_for-profile">
@@ -29,11 +29,11 @@
                 <h1 class="profile__name">Жак-Ив Кусто</h1>
                 <p class="profile__profession">Исследователь океана</p>
             </div>        
-            <button class="edit-batton profile__container">
-                <img class="edit-batton__pen" src="./images/pen Vector.svg" alt="изображение ручки">
+            <button class="edit-batton profile__container" type="button" name="edit">
+                <img class="edit-batton__pen" src="./images/pen.svg" alt="изображение ручки">
             </button>
-            <button class="add-batton">
-                <img class="add-batton__cross" src="./images/cross Vector.svg" alt="крестик">
+            <button class="add-batton" type="button" name="add">
+                <img class="add-batton__cross" src="./images/cross.svg" alt="крестик">
             </button>
         </section>
         <section class="elements root__container root__container_margins_for-elements">
@@ -41,42 +41,42 @@
                 <img class="elements__foto" src="./images/Карачаевск.jpg" alt="фото Карачаевска">
                 <div class="elements__group">
                     <h2 class="elements__title">Карачаевск</h2>
-                    <button class="elements__like"></button>
+                    <button class="elements__like" type="button" name="like"></button>
                 </div>
             </div>
             <div class="elements__element">
                 <img class="elements__foto" src="./images/Эльбрус.jpg" alt="фото горы Эльбрус">
                 <div class="elements__group">
                     <h2 class="elements__title">Гора Эльбрус</h2>
-                    <button class="elements__like"></button>
+                    <button class="elements__like" type="button" name="like"></button>
                 </div>
             </div>
             <div class="elements__element">
                 <img class="elements__foto" src="./images/Домбай.jpg" alt="фото горы Домбай">
                 <div class="elements__group">
                     <h2 class="elements__title">Домбай</h2>
-                    <button class="elements__like"></button>
+                    <button class="elements__like" type="button" name="like"></button>
                 </div>
             </div>
             <div class="elements__element">
                 <img class="elements__foto" src="./images/Эльбрус.jpg" alt="фото горы Эльбрус">
                 <div class="elements__group">
                     <h2 class="elements__title">Гора Эльбрус</h2>
-                    <button class="elements__like"></button>
+                    <button class="elements__like" type="button" name="like"></button>
                 </div>
             </div>
             <div class="elements__element">
                 <img class="elements__foto" src="./images/Домбай.jpg" alt="фото горы Домбай">
                 <div class="elements__group">
                     <h2 class="elements__title">Домбай</h2>
-                    <button class="elements__like"></button>
+                    <button class="elements__like" type="button" name="like"></button>
                 </div>
             </div>
             <div class="elements__element">
                 <img class="elements__foto" src="./images/Карачаевск.jpg" alt="фото Карачаевска">
                 <div class="elements__group">
                     <h2 class="elements__title">Карачаево-Черкесский округ</h2>
-                    <button class="elements__like"></button>
+                    <button class="elements__like" type="button" name="like"></button>
                 </div>
             </div>
         </section>
@@ -84,4 +84,5 @@
     <footer class="footer root__container root__container_margins_for-footer">
         <h2 class="footer__info" lang="en">&copy; 2022 Mesto Russia</h2>
     </footer>
+    <script src="script.js"></script>
 </body>
