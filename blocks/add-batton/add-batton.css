@@ -8,4 +8,16 @@
     margin-left: auto;
     align-self: center;
     padding: 0;
+    opacity: 1;
+}
+
+.add-batton:hover {
+    opacity: 0.6;
+    transition: opacity 1s linear;
+}
+
+@media screen and (max-width: 767px) {
+    .add-batton {
+        width: 100%;
+    }
 }

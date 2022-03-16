@@ -13,10 +13,15 @@ closePopup.addEventListener('click', function() {
 let formElement = document.querySelector(".popup__container");
 let fullNameInput = document.querySelector(".popup__fullname");
 let professionInput = document.querySelector(".popup__profession");
+let saveInput = document.querySelector('.popup__saved');
 
-function formSubmitHandler(evt) {
+function formSubmit(evt) {
     evt.preventDefault();
     document.querySelector(".profile__name").textContent = fullNameInput.value;
-    document.querySelector(".profile__profession").textContent = professionInput.value;
+    document.querySelector(".profile__profession").textContent = professionInput.value;    
 }
-formElement.addEventListener('submit', formSubmitHandler);
+formElement.addEventListener('submit', formSubmit);
+
+saveInput.addEventListener('click', function() {
+    popup.classList.remove('popup_opened');
+})

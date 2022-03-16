@@ -5,3 +5,10 @@
     margin-top: 54px;
     margin-bottom: 48px;
 }
+
+@media screen and (max-width: 425px) {
+    .popup__user-info {
+        margin-top: 75px;
+        margin-bottom: 45px;
+    }
+}
