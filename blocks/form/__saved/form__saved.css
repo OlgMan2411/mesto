@@ -1,4 +1,4 @@
-.popup__saved {
+.form__saved {
     width: 100%;
     min-height: 50px;
     background-color: #000000;
@@ -12,16 +12,18 @@
     line-height: 1.22;
     text-align: center;
     border: none;
-    opacity: 1;
+    border-radius: 2px;
+    opacity: 1;    
+    cursor: pointer;
 }
 
-.popup__saved:hover {
+.form__saved:hover {
     opacity: 0.8;
     transition: opacity 1s linear;
 }
 
 @media screen and (max-width: 425px) {
-    .popup__saved {
+    .form__saved {
         min-height: 46px;
         font-size: 14px;
         line-height: 1.21;

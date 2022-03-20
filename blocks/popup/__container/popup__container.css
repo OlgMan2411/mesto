@@ -1,7 +1,8 @@
 .popup__container {
-    position: absolute;
-    top: 195px;
-    left: calc(50% - 470px/2);
+    position: relative;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
     width: 430px;
     min-height: 330px;
     background-color: white;
@@ -16,7 +17,5 @@
         width: 282px;
         min-height: 322px;
         padding: 25px 22px;
-        top: 123px;
-        left: calc(50% - 141px);
     }
 }

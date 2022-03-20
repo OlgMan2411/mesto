@@ -1,4 +1,4 @@
-.edit-batton {
+.profile__edit-batton {
     display: block;
     min-width: 24px;
     min-height: 24px;
@@ -8,16 +8,17 @@
     background-color: #000000;
     align-self: center;
     padding: 0;
-    opacity: 1;
+    opacity: 1;    
+    cursor: pointer;
 }
 
-.edit-batton:hover {
+.profile__edit-batton:hover {
     opacity: 0.6;
     transition: opacity 1s linear;
 }
 
 @media screen and (max-width: 767px) {
-    .edit-batton {
+    .profile__edit-batton {
         min-width: 18px;
         min-height: 18px;
         /* align-self: flex-start; */

@@ -1,10 +1,10 @@
-.add-batton__cross {
+.profile__cross {
     width: 22px;
     height: 22px;
 }
 
 @media screen and (max-width: 767px) {
-    .add-batton__cross {
+    .profile__cross {
         width: 16px;
         height: 16px;
     }

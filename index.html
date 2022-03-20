@@ -8,16 +8,17 @@
 </head>
 <body class="root">
     <section class="popup">
-        <form class="popup__container">         
-            <h2 class="popup__title">Редактировать профиль</h2>
-            <fieldset class="popup__user-info">
-                <input class="popup__fullname" type="text" name="fullname" placeholder="Жак-Ив Кусто">
-                <input class="popup__profession" type="text" name="profession" placeholder="Исследователь океана">
-            </fieldset>
-            <button class="popup__saved" type="submit" name="save">Сохранить</button>            
+        <div class="popup__container">                      
             <button class="popup__closed" type="button" name="close"></button>
-        </form>
-        <div class="popup__overlay"></div>
+            <form class="form" name="form">         
+                <h2 class="form__title">Редактировать профиль</h2>
+                <fieldset class="form__user-info">
+                    <input class="form__input form__input_name_fullname" type="text" name="fullname" placeholder="Жак-Ив Кусто">
+                    <input class="form__input form__input_name_profession" type="text" name="profession" placeholder="Исследователь океана">
+                </fieldset>
+                <button class="form__saved" type="submit" name="save">Сохранить</button>  
+            </form>
+        </div>
     </section>
     <header class="header root__container root__container_margins_for-header">
         <img class="header__logo" src="./images/vector.svg" alt="логотип Место">
@@ -27,13 +28,13 @@
             <img class="profile__foto" src="./images/кусто.jpg" alt="фото Кусто">
             <div class="profile__info">
                 <h1 class="profile__name">Жак-Ив Кусто</h1>
-                <button class="edit-batton" type="button" name="edit">
-                    <img class="edit-batton__pen" src="./images/pen.svg" alt="изображение ручки">
+                <button class="profile__edit-batton" type="button" name="edit">
+                    <img class="profile__pen" src="./images/pen.svg" alt="изображение ручки">
                 </button>
                 <p class="profile__profession">Исследователь океана</p>
             </div>
-            <button class="add-batton" type="button" name="add">
-                <img class="add-batton__cross" src="./images/cross.svg" alt="крестик">
+            <button class="profile__add-batton" type="button" name="add">
+                <img class="profile__cross" src="./images/cross.svg" alt="крестик">
             </button>
         </section>
         <section class="elements">
@@ -84,6 +85,6 @@
     <footer class="footer root__container root__container_margins_for-footer">
         <h2 class="footer__info" lang="en">&copy; 2022 Mesto Russia</h2>
     </footer>
-    <script src="script.js"></script>
+    <script src="./scripts/script.js"></script>
 </body>
 </html>
