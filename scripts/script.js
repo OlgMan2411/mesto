@@ -1,3 +1,7 @@
+// Набор действий и переменных для работы с попапом. 
+// Сначала - редактирование имени и профессии профиля (где Кусто)
+
+
 let openPopup = document.querySelector(".profile__edit-batton");
 let closePopup = document.querySelector(".popup__closed");
 let popup = document.querySelector(".popup");
@@ -31,5 +35,37 @@ openPopup.addEventListener('click', popupOpener);
 closePopup.addEventListener('click', popupCloser);
 
 formElement.addEventListener('submit', formSubmit);
+
+// Заполняем предустановленные карточки
+
+const initialCards = [
+    {
+      name: 'Архыз',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    },
+    {
+      name: 'Челябинская область',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    },
+    {
+      name: 'Иваново',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    },
+    {
+      name: 'Камчатка',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    },
+    {
+      name: 'Холмогорский район',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    },
+    {
+      name: 'Байкал',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    }
+  ];
+
+
+
 
 // saveInput.addEventListener('click', popupCloser);
