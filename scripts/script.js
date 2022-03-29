@@ -66,6 +66,31 @@ const initialCards = [
   ];
 
 
+const elementTemplate = document.querySelector('#element-template').content;
+const elements = document.querySelector('.elements'); 
+  
+initialCards.forEach((item) => {
+  // клонируем содержимое тега template  
+  const addElement = elementTemplate.querySelector('.elements__element').cloneNode(true);
+
+  // наполняем содержимым
+  addElement.querySelector('.elements__foto').src = item.link;  
+  addElement.querySelector('.elements__title').textContent = item.name;  
+
+  // отображаем на странице
+  elements.append(addElement);
+  
+});
+
+const buttons = document.querySelectorAll('.elements__like');
+const buttonLike = Array.from(buttons);
+
+buttonLike.addEventListener('click', function(evt) {
+  console.log('Кликнули')
+  evt.target.classList.toggle('elements__like_active')
+}
+);
+
 
 
 // saveInput.addEventListener('click', popupCloser);
