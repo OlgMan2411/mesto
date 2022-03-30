@@ -1,42 +1,74 @@
 // Набор действий и переменных для работы с попапом. 
 // Сначала - редактирование имени и профессии профиля (где Кусто)
 
+// Заголовки попапов:
+const popupFillers = [
+  {
+    popTitle: 'Редактировать профиль',    
+    popNamePlaceholder: 'Имя пользователя',
+    popInfoPlaceholder: 'профессия',
+  },
+  {
+    popTitle: 'Новое место',
+    popNamePlaceholder: 'Название',
+    popInfoPlaceholder: 'Ссылка на картинку',
+  },
+]
 
 let openPopup = document.querySelector(".profile__edit-batton");
-let closePopup = document.querySelector(".popup__closed");
-let popup = document.querySelector(".popup");
-let formElement = document.querySelector(".form");
-let fullNameInput = document.querySelector(".form__input_name_fullname");
-let professionInput = document.querySelector(".form__input_name_profession");
-let saveInput = document.querySelector('.form__saved');
 let profileName = document.querySelector('.profile__name');
 let profileProfession = document.querySelector('.profile__profession');
 
-function popupOpener() {
-    popup.classList.add('popup_opened');
-    fullNameInput.value = profileName.textContent;
-    professionInput.value = profileProfession.textContent
-}
+function BlankPopup() {
+  const popupTemplate = document.querySelector('#popup-template').content;  
+  return popupTemplate.querySelector('.popup').cloneNode(true);
+};
 
-function popupCloser() {
-    popup.classList.remove('popup_opened');
-}
+function profileOpener() {
+  profilePopup = BlankPopup();
+  const nameFild = profilePopup.querySelector('.form__input_name-fild');
+  const profLinkFild = profilePopup.querySelector('.form__input_profession-link-fild');
+  const closePopup = profilePopup.querySelector(".popup__closed");
+  const form = profilePopup.querySelector(".form");
+  
+  profilePopup.classList.toggle('popup_opened'); //querySelector(".popup").  
+  profilePopup.querySelector('.form__title').textContent = popupFillers[0].popTitle;
 
+  nameFild.name = popupFillers[0].popNamePlaceholder;  
+  nameFild.placeholder = popupFillers[0].popNamePlaceholder;  
+  nameFild.value = profileName.textContent;
+  
+  profLinkFild.name = popupFillers[0].popInfoPlaceholder;
+  profLinkFild.placeholder = popupFillers[0].popInfoPlaceholder;
+  profLinkFild.value = profileProfession.textContent;
+  
+  document.querySelector('.root').append(profilePopup);
+  
+  closePopup.addEventListener('click', function() {
+    popupCloser(profilePopup);
+  }
+  );
+  
+  form.addEventListener('submit', function(evt) {
+    evt.preventDefault();    
+    inputFill(nameFild, profLinkFild);    
+    popupCloser(profilePopup  );  
+  }
+  );
+};
 
-function formSubmit(evt) {
-    evt.preventDefault();
-    profileName.textContent = fullNameInput.value;
-    profileProfession.textContent = professionInput.value;
-    popupCloser()  
-}
+function popupCloser(elementToClose) {
+  elementToClose.classList.toggle('popup_opened');
+  elementToClose.remove();
+};
 
-openPopup.addEventListener('click', popupOpener);
+function inputFill(name, profLink) {
+  profileName.textContent = name.value;
+  profileProfession.textContent = profLink.value;
+};
 
-closePopup.addEventListener('click', popupCloser);
+openPopup.addEventListener('click', profileOpener);
 
-formElement.addEventListener('submit', formSubmit);
-
-// Заполняем предустановленные карточки
 
 const initialCards = [
     {
@@ -85,11 +117,11 @@ initialCards.forEach((item) => {
 const buttons = document.querySelectorAll('.elements__like');
 const buttonLike = Array.from(buttons);
 
-buttonLike.addEventListener('click', function(evt) {
-  console.log('Кликнули')
-  evt.target.classList.toggle('elements__like_active')
-}
-);
+// buttonLike.addEventListener('click', function(evt) {
+//   console.log('Кликнули')
+//   evt.target.classList.toggle('elements__like_active')
+// }
+// );
 
 
 
