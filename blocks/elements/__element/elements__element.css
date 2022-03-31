@@ -1,8 +1,5 @@
 .elements__element {
-    /* display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between; */
-    /* align-items: flex-start; */
+    position: relative;    
     background-color: white;
     border-radius: 10px;
     box-sizing: border-box;
