@@ -15,9 +15,13 @@ const popupFillers = [
   },
 ]
 
-let openPopup = document.querySelector(".profile__edit-batton");
+// Профиль - попап
+let openProfilePopup = document.querySelector(".profile__edit-batton");
+
+// Переменные для заполнения текущим значением полей попапа
 let profileName = document.querySelector('.profile__name');
 let profileProfession = document.querySelector('.profile__profession');
+let cardsContainer = document.querySelector('.elements');
 
 function BlankPopup() {
   const popupTemplate = document.querySelector('#popup-template').content;  
@@ -67,7 +71,48 @@ function inputFill(name, profLink) {
   profileProfession.textContent = profLink.value;
 };
 
-openPopup.addEventListener('click', profileOpener);
+openProfilePopup.addEventListener('click', profileOpener);
+
+let openAddCardPopup = document.querySelector('.profile__add-batton');
+
+function addCardOpener() {
+  addCardPopup = BlankPopup();
+  const nameFild = addCardPopup.querySelector('.form__input_name-fild');
+  const profLinkFild = addCardPopup.querySelector('.form__input_profession-link-fild');
+  const closePopup = addCardPopup.querySelector(".popup__closed");
+  const form = addCardPopup.querySelector(".form");
+  
+  addCardPopup.classList.toggle('popup_opened'); //querySelector(".popup").  
+  addCardPopup.querySelector('.form__title').textContent = popupFillers[1].popTitle;
+
+  nameFild.classList.add('form__input_grey-placehold');
+  nameFild.name = popupFillers[1].popNamePlaceholder;  
+  nameFild.placeholder = popupFillers[1].popNamePlaceholder;    
+  
+  profLinkFild.classList.add('form__input_grey-placehold');
+  profLinkFild.name = popupFillers[1].popInfoPlaceholder;
+  profLinkFild.placeholder = popupFillers[1].popInfoPlaceholder;
+    
+  document.querySelector('.root').append(addCardPopup);
+  
+  closePopup.addEventListener('click', function() {
+    popupCloser(addCardPopup);
+  }
+  );
+  
+  form.addEventListener('submit', function(evt) {
+    evt.preventDefault();
+    
+    newCard = makeCard(profLinkFild.value, nameFild.value);    
+    cardsContainer.prepend(newCard);    
+    popupCloser(addCardPopup);  
+  }
+  );
+};
+
+openAddCardPopup.addEventListener('click', addCardOpener);
+
+
 
 
 const initialCards = [
@@ -100,29 +145,24 @@ const initialCards = [
 
 const elementTemplate = document.querySelector('#element-template').content;
 const elements = document.querySelector('.elements'); 
-  
-initialCards.forEach((item) => {
+
+const makeCard = (link, name) => {
   // клонируем содержимое тега template  
   const addElement = elementTemplate.querySelector('.elements__element').cloneNode(true);
+  const heartToCheck = addElement.querySelector('.elements__like');
 
   // наполняем содержимым
-  addElement.querySelector('.elements__foto').src = item.link;  
-  addElement.querySelector('.elements__title').textContent = item.name;  
+  addElement.querySelector('.elements__foto').src = link;  
+  addElement.querySelector('.elements__title').textContent = name;
+  heartToCheck.addEventListener('click', function() {
+    heartToCheck.classList.toggle('elements__like_active');
+  } )
+  return addElement;
+};
 
-  // отображаем на странице
-  elements.append(addElement);
+  
+initialCards.forEach((item) => {
+  let newCard = makeCard(item.link, item.name);  
+  elements.append(newCard);
   
 });
-
-const buttons = document.querySelectorAll('.elements__like');
-const buttonLike = Array.from(buttons);
-
-// buttonLike.addEventListener('click', function(evt) {
-//   console.log('Кликнули')
-//   evt.target.classList.toggle('elements__like_active')
-// }
-// );
-
-
-
-// saveInput.addEventListener('click', popupCloser);
