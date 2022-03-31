@@ -150,19 +150,24 @@ const makeCard = (link, name) => {
   // клонируем содержимое тега template  
   const addElement = elementTemplate.querySelector('.elements__element').cloneNode(true);
   const heartToCheck = addElement.querySelector('.elements__like');
+  const toDelete = addElement.querySelector('.elements__delete');
 
   // наполняем содержимым
   addElement.querySelector('.elements__foto').src = link;  
   addElement.querySelector('.elements__title').textContent = name;
   heartToCheck.addEventListener('click', function() {
     heartToCheck.classList.toggle('elements__like_active');
-  } )
+  });
+  toDelete.addEventListener('click', function() {
+    addElement.remove();
+  } );
+
   return addElement;
 };
 
-  
+
+// Накидываем карточек из уже имеющихся данных
 initialCards.forEach((item) => {
   let newCard = makeCard(item.link, item.name);  
-  elements.append(newCard);
-  
+  elements.append(newCard);  
 });
