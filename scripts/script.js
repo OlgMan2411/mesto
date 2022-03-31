@@ -1,42 +1,119 @@
 // Набор действий и переменных для работы с попапом. 
 // Сначала - редактирование имени и профессии профиля (где Кусто)
 
+// Заголовки попапов:
+const popupFillers = [
+  {
+    popTitle: 'Редактировать профиль',    
+    popNamePlaceholder: 'Имя пользователя',
+    popInfoPlaceholder: 'профессия',
+  },
+  {
+    popTitle: 'Новое место',
+    popNamePlaceholder: 'Название',
+    popInfoPlaceholder: 'Ссылка на картинку',
+  },
+]
 
-let openPopup = document.querySelector(".profile__edit-batton");
-let closePopup = document.querySelector(".popup__closed");
-let popup = document.querySelector(".popup");
-let formElement = document.querySelector(".form");
-let fullNameInput = document.querySelector(".form__input_name_fullname");
-let professionInput = document.querySelector(".form__input_name_profession");
-let saveInput = document.querySelector('.form__saved');
+// Профиль - попап
+let openProfilePopup = document.querySelector(".profile__edit-batton");
+
+// Переменные для заполнения текущим значением полей попапа
 let profileName = document.querySelector('.profile__name');
 let profileProfession = document.querySelector('.profile__profession');
+let cardsContainer = document.querySelector('.elements');
 
-function popupOpener() {
-    popup.classList.add('popup_opened');
-    fullNameInput.value = profileName.textContent;
-    professionInput.value = profileProfession.textContent
-}
+function BlankPopup() {
+  const popupTemplate = document.querySelector('#popup-template').content;  
+  return popupTemplate.querySelector('.popup').cloneNode(true);
+};
 
-function popupCloser() {
-    popup.classList.remove('popup_opened');
-}
+function profileOpener() {
+  profilePopup = BlankPopup();
+  const nameFild = profilePopup.querySelector('.form__input_name-fild');
+  const profLinkFild = profilePopup.querySelector('.form__input_profession-link-fild');
+  const closePopup = profilePopup.querySelector(".popup__closed");
+  const form = profilePopup.querySelector(".form");
+  
+  profilePopup.classList.toggle('popup_opened'); //querySelector(".popup").  
+  profilePopup.querySelector('.form__title').textContent = popupFillers[0].popTitle;
 
+  nameFild.name = popupFillers[0].popNamePlaceholder;  
+  nameFild.placeholder = popupFillers[0].popNamePlaceholder;  
+  nameFild.value = profileName.textContent;
+  
+  profLinkFild.name = popupFillers[0].popInfoPlaceholder;
+  profLinkFild.placeholder = popupFillers[0].popInfoPlaceholder;
+  profLinkFild.value = profileProfession.textContent;
+  
+  document.querySelector('.root').append(profilePopup);
+  
+  closePopup.addEventListener('click', function() {
+    popupCloser(profilePopup);
+  }
+  );
+  
+  form.addEventListener('submit', function(evt) {
+    evt.preventDefault();    
+    inputFill(nameFild, profLinkFild);    
+    popupCloser(profilePopup  );  
+  }
+  );
+};
 
-function formSubmit(evt) {
+function popupCloser(elementToClose) {
+  elementToClose.classList.toggle('popup_opened');
+  elementToClose.remove();
+};
+
+function inputFill(name, profLink) {
+  profileName.textContent = name.value;
+  profileProfession.textContent = profLink.value;
+};
+
+openProfilePopup.addEventListener('click', profileOpener);
+
+let openAddCardPopup = document.querySelector('.profile__add-batton');
+
+function addCardOpener() {
+  addCardPopup = BlankPopup();
+  const nameFild = addCardPopup.querySelector('.form__input_name-fild');
+  const profLinkFild = addCardPopup.querySelector('.form__input_profession-link-fild');
+  const closePopup = addCardPopup.querySelector(".popup__closed");
+  const form = addCardPopup.querySelector(".form");
+  
+  addCardPopup.classList.toggle('popup_opened'); //querySelector(".popup").  
+  addCardPopup.querySelector('.form__title').textContent = popupFillers[1].popTitle;
+
+  nameFild.classList.add('form__input_grey-placehold');
+  nameFild.name = popupFillers[1].popNamePlaceholder;  
+  nameFild.placeholder = popupFillers[1].popNamePlaceholder;    
+  
+  profLinkFild.classList.add('form__input_grey-placehold');
+  profLinkFild.name = popupFillers[1].popInfoPlaceholder;
+  profLinkFild.placeholder = popupFillers[1].popInfoPlaceholder;
+    
+  document.querySelector('.root').append(addCardPopup);
+  
+  closePopup.addEventListener('click', function() {
+    popupCloser(addCardPopup);
+  }
+  );
+  
+  form.addEventListener('submit', function(evt) {
     evt.preventDefault();
-    profileName.textContent = fullNameInput.value;
-    profileProfession.textContent = professionInput.value;
-    popupCloser()  
-}
+    
+    newCard = makeCard(profLinkFild.value, nameFild.value);    
+    cardsContainer.prepend(newCard);    
+    popupCloser(addCardPopup);  
+  }
+  );
+};
 
-openPopup.addEventListener('click', popupOpener);
+openAddCardPopup.addEventListener('click', addCardOpener);
 
-closePopup.addEventListener('click', popupCloser);
 
-formElement.addEventListener('submit', formSubmit);
 
-// Заполняем предустановленные карточки
 
 const initialCards = [
     {
@@ -68,29 +145,24 @@ const initialCards = [
 
 const elementTemplate = document.querySelector('#element-template').content;
 const elements = document.querySelector('.elements'); 
-  
-initialCards.forEach((item) => {
+
+const makeCard = (link, name) => {
   // клонируем содержимое тега template  
   const addElement = elementTemplate.querySelector('.elements__element').cloneNode(true);
+  const heartToCheck = addElement.querySelector('.elements__like');
 
   // наполняем содержимым
-  addElement.querySelector('.elements__foto').src = item.link;  
-  addElement.querySelector('.elements__title').textContent = item.name;  
+  addElement.querySelector('.elements__foto').src = link;  
+  addElement.querySelector('.elements__title').textContent = name;
+  heartToCheck.addEventListener('click', function() {
+    heartToCheck.classList.toggle('elements__like_active');
+  } )
+  return addElement;
+};
 
-  // отображаем на странице
-  elements.append(addElement);
+  
+initialCards.forEach((item) => {
+  let newCard = makeCard(item.link, item.name);  
+  elements.append(newCard);
   
 });
-
-const buttons = document.querySelectorAll('.elements__like');
-const buttonLike = Array.from(buttons);
-
-buttonLike.addEventListener('click', function(evt) {
-  console.log('Кликнули')
-  evt.target.classList.toggle('elements__like_active')
-}
-);
-
-
-
-// saveInput.addEventListener('click', popupCloser);
