@@ -15,68 +15,74 @@ const popupFillers = [
   },
 ]
 
-// Профиль - попап
+// Чистый элемент попапа
+const blankPopup = document.querySelector('.popup');
+
+
 let openProfilePopup = document.querySelector(".profile__edit-batton");
 
-// Переменные для заполнения текущим значением полей попапа
-let profileName = document.querySelector('.profile__name');
-let profileProfession = document.querySelector('.profile__profession');
-let cardsContainer = document.querySelector('.elements');
-
-function BlankPopup() {
-  const popupTemplate = document.querySelector('#popup-template').content;  
-  return popupTemplate.querySelector('.popup').cloneNode(true);
-};
+// function BlankPopup() {
+//   const popupTemplate = document.querySelector('#popup-template').content;
+//   return popupTemplate.querySelector('.popup').cloneNode(true);
+// };
 
 function profileOpener() {
-  profilePopup = BlankPopup();
-  const nameFild = profilePopup.querySelector('.form__input_name-fild');
-  const profLinkFild = profilePopup.querySelector('.form__input_profession-link-fild');
-  const closePopup = profilePopup.querySelector(".popup__closed");
-  const form = profilePopup.querySelector(".form");
+  profilePopup = document.querySelector('.popup');
+  console.log('Копия');
+  console.log(profilePopup);
+  const profileName = document.querySelector('.profile__name');
+  const profileProfession = document.querySelector('.profile__profession');
+  const profname = profilePopup.querySelector('.form__input_name-fild');  
+  const profFild = profilePopup.querySelector('.form__input_profession-link-fild');  
+  const closeProfPopup = profilePopup.querySelector(".popup__closed");
+  const profform = profilePopup.querySelector(".form");
   
-  profilePopup.classList.toggle('popup_opened'); //querySelector(".popup").  
+  profilePopup.classList.toggle('popup_opened');
   profilePopup.querySelector('.form__title').textContent = popupFillers[0].popTitle;
 
-  nameFild.name = popupFillers[0].popNamePlaceholder;  
-  nameFild.placeholder = popupFillers[0].popNamePlaceholder;  
-  nameFild.value = profileName.textContent;
+  profname.name = popupFillers[0].popNamePlaceholder;  
+  profname.placeholder = popupFillers[0].popNamePlaceholder;  
+  profname.value = profileName.textContent;
   
-  profLinkFild.name = popupFillers[0].popInfoPlaceholder;
-  profLinkFild.placeholder = popupFillers[0].popInfoPlaceholder;
-  profLinkFild.value = profileProfession.textContent;
+  profFild.name = popupFillers[0].popInfoPlaceholder;
+  profFild.placeholder = popupFillers[0].popInfoPlaceholder;
+  profFild.value = profileProfession.textContent;  
   
-  document.querySelector('.root').append(profilePopup);
-  
-  closePopup.addEventListener('click', function() {
-    popupCloser(profilePopup);
+  closeProfPopup.addEventListener('click', function() {
+    popupCloser(profilePopup);    
   }
   );
   
-  form.addEventListener('submit', function(evt) {
-    evt.preventDefault();    
-    inputFill(nameFild, profLinkFild);    
-    popupCloser(profilePopup  );  
+  profform.addEventListener('submit', function(evt) {
+    evt.preventDefault();
+    profileName.textContent = profname.value;
+    profileProfession.textContent = profFild.value;    
+    popupCloser(profilePopup);
   }
   );
 };
 
 function popupCloser(elementToClose) {
-  elementToClose.classList.toggle('popup_opened');
-  elementToClose.remove();
+  elementToClose.classList.toggle('popup_opened');  
+  elementToClose.replaceWith(blankPopup);
 };
 
-function inputFill(name, profLink) {
-  profileName.textContent = name.value;
-  profileProfession.textContent = profLink.value;
+function popupPicCloser(elementToClose) {
+  elementToClose.classList.toggle('popup-picview_opened');
 };
 
 openProfilePopup.addEventListener('click', profileOpener);
 
+
+
+// Запуск попапа с добавлением карточки
+
 let openAddCardPopup = document.querySelector('.profile__add-batton');
 
 function addCardOpener() {
-  addCardPopup = BlankPopup();
+  addCardPopup = document.querySelector('.popup');
+
+  const cardsContainer = document.querySelector('.elements');
   const nameFild = addCardPopup.querySelector('.form__input_name-fild');
   const profLinkFild = addCardPopup.querySelector('.form__input_profession-link-fild');
   const closePopup = addCardPopup.querySelector(".popup__closed");
@@ -91,9 +97,7 @@ function addCardOpener() {
   
   profLinkFild.classList.add('form__input_grey-placehold');
   profLinkFild.name = popupFillers[1].popInfoPlaceholder;
-  profLinkFild.placeholder = popupFillers[1].popInfoPlaceholder;
-    
-  document.querySelector('.root').append(addCardPopup);
+  profLinkFild.placeholder = popupFillers[1].popInfoPlaceholder;  
   
   closePopup.addEventListener('click', function() {
     popupCloser(addCardPopup);
@@ -111,7 +115,6 @@ function addCardOpener() {
 };
 
 openAddCardPopup.addEventListener('click', addCardOpener);
-
 
 
 
@@ -151,23 +154,43 @@ const makeCard = (link, name) => {
   const addElement = elementTemplate.querySelector('.elements__element').cloneNode(true);
   const heartToCheck = addElement.querySelector('.elements__like');
   const toDelete = addElement.querySelector('.elements__delete');
+  const toPicview = addElement.querySelector('.elements__foto');
 
   // наполняем содержимым
-  addElement.querySelector('.elements__foto').src = link;  
+  toPicview.src = link;  
   addElement.querySelector('.elements__title').textContent = name;
+
   heartToCheck.addEventListener('click', function() {
     heartToCheck.classList.toggle('elements__like_active');
   });
+
   toDelete.addEventListener('click', function() {
     addElement.remove();
   } );
 
+  toPicview.addEventListener('click', function() {
+    openPicviewPopup(link, name);
+  });
   return addElement;
 };
-
 
 // Накидываем карточек из уже имеющихся данных
 initialCards.forEach((item) => {
   let newCard = makeCard(item.link, item.name);  
   elements.append(newCard);  
 });
+
+// Вызов окна просмотра фотографии
+const openPicviewPopup = (link, name) => {  
+  const picviewElements = document.querySelector('.popup-picview');
+  const closePicPopup = picviewElements.querySelector(".popup-picview__closed");
+  picviewElements.querySelector('.popup-picview__photo').src = link;
+  picviewElements.querySelector('.popup-picview__title').textContent = name;
+  picviewElements.classList.toggle('popup-picview_opened');
+  
+  closePicPopup.addEventListener('click', function() {
+    popupPicCloser(picviewElements);
+  }
+  );
+
+};

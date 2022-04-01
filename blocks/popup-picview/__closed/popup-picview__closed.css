@@ -1,0 +1,29 @@
+.popup-picview__closed {        
+    width: 32px;
+    height: 32px;
+    background-image: url(../../../images/close.svg);
+    background-size: cover;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: -40px;    
+    left: calc(100% + 8px); 
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    z-index: 53;
+}
+
+.popup-picview__closed:hover {
+    opacity: 0.6;
+    transition: opacity 1s linear;
+}
+
+@media screen and (max-width: 425px) {
+    .popup-picview__closed {
+        width: 20px;
+        height: 20px;
+        top: -36px;
+        right: 0;
+    }
+}
