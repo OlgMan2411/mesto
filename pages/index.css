@@ -15,6 +15,13 @@
 @import url(../blocks/popup/__container/popup__container.css);
 @import url(../blocks/popup/__closed/popup__closed.css);
 
+@import url(../blocks/popup-picview/popup-picview.css);
+@import url(../blocks/popup-picview/__closed/popup-picview__closed.css);
+@import url(../blocks/popup-picview/_opened/popup-picview_opened.css);
+@import url(../blocks/popup-picview/__container/popup-picview__container.css);
+@import url(../blocks/popup-picview/__photo/popup-picview__photo.css);
+@import url(../blocks/popup-picview/__title/popup-picview__title.css);
+
 @import url(../blocks/form/form.css);
 @import url(../blocks/form/__title/form__title.css);
 @import url(../blocks/form/__user-info/form__user-info.css);

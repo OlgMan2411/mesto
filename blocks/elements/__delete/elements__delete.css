@@ -12,7 +12,7 @@
     background-image: url(../../../images/delete.svg);
     background-size: cover;    
     cursor: pointer;
-    z-index: 100;
+    z-index: 40;
 }
 
 .elements__delete:hover {
