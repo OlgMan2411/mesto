@@ -1,16 +1,19 @@
-.popup-picview__container {    
+.popup-picview__container {
+    display: flex;
+    flex-direction: column;
     max-width: 75vw;
     height: 75vh;
-    position: relative;    
+    position: relative;
     margin: 0;
-    box-sizing: border-box;        
+    box-sizing: border-box;
 }
 
-/* @media screen and (max-width: 425px) {
+@media screen and (max-width: 425px) {
     .popup-picview__container {
-        top: 123px;
-        width: 282px;
-        min-height: 322px;
-        padding: 25px 22px;
+        top: 50px;
+        max-width: 240px;
+        width: 240px;
+        height: 299px;
+        /* padding: 25px 22px; */
     }
-} */
+}

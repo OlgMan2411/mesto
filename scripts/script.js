@@ -18,13 +18,8 @@ const popupFillers = [
 // Чистый элемент попапа
 const blankPopup = document.querySelector('.popup');
 
-
 let openProfilePopup = document.querySelector(".profile__edit-batton");
 
-// function BlankPopup() {
-//   const popupTemplate = document.querySelector('#popup-template').content;
-//   return popupTemplate.querySelector('.popup').cloneNode(true);
-// };
 
 function profileOpener() {
   profilePopup = document.querySelector('.popup');
@@ -64,7 +59,7 @@ function profileOpener() {
 
 function popupCloser(elementToClose) {
   elementToClose.classList.toggle('popup_opened');  
-  elementToClose.replaceWith(blankPopup);
+  // elementToClose.replaceWith(blankPopup);
 };
 
 function popupPicCloser(elementToClose) {
@@ -187,10 +182,10 @@ const openPicviewPopup = (link, name) => {
   picviewElements.querySelector('.popup-picview__photo').src = link;
   picviewElements.querySelector('.popup-picview__title').textContent = name;
   picviewElements.classList.toggle('popup-picview_opened');
-  
-  closePicPopup.addEventListener('click', function() {
-    popupPicCloser(picviewElements);
-  }
-  );
-
 };
+
+
+closePicPopup.addEventListener('click', function() {
+  popupPicCloser(picviewElements);
+}
+);
