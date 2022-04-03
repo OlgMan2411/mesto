@@ -1,9 +1,19 @@
 .popup-picview__photo {    
+    display: block;    
     max-width: 75vw;
     height: 75vh;
     object-fit: cover;
-    object-position: center;
+    /* object-position: center; */
     z-index: 51;
     margin: 0;
     padding: 0;
 };
+
+
+@media screen and (max-width: 425px) {
+    .popup-picview__photo {        
+        max-width: 240px;
+        height: 299px;
+        /* object-fit: contain; */
+    }
+}
