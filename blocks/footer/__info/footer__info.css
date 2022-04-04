@@ -8,7 +8,7 @@
     color: #545454;
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 767px) {
     .footer__info {
         font-size: 14px;
         line-height: 1.21;

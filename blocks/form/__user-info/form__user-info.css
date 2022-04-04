@@ -6,7 +6,7 @@
     margin-bottom: 48px;
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 767px) {
     .form__user-info {
         margin-top: 75px;
         margin-bottom: 45px;

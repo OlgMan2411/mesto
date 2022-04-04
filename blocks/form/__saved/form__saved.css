@@ -22,7 +22,7 @@
     transition: opacity 1s linear;
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 767px) {
     .form__saved {
         min-height: 46px;
         font-size: 14px;
