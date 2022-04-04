@@ -1,6 +1,6 @@
 .form__input_grey-placehold::placeholder {
     color: #C4C4C4;
-};
+}
 
 .form__input_grey-placehold::-webkit-input-placeholder { /* WebKit, Blink, Edge */
     color:    #C4C4C4;
