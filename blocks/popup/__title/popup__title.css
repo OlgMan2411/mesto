@@ -1,4 +1,4 @@
-.popup-picview__title {    
+.popup__title {    
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
@@ -8,5 +8,6 @@
     margin: 0;
     position: absolute;
     bottom: -20px;    
-    z-index: 52;
+    z-index: 82;
 };
+

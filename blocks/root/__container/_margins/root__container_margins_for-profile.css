@@ -2,7 +2,7 @@
     margin-top: 40px;
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 767px) {
     .root__container_margins_for-profile {
         margin-top: 42px;
     }

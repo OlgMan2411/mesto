@@ -5,9 +5,9 @@
     background-size: cover;
     background-color: transparent;
     border: none;
-    position: absolute;
-    top: -40px;
-    right: -40px;
+    position: relative;
+    top: -8px;
+    left: 438px;
     opacity: 1;
     margin: 0;
     padding: 0;
@@ -19,11 +19,11 @@
     transition: opacity 1s linear;
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 767px) {
     .popup__closed {
         width: 20px;
         height: 20px;
-        top: -36px;
-        right: 0;
+        top: -16px;
+        left: 262px;
     }
 }
