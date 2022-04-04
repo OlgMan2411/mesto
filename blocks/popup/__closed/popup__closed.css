@@ -12,6 +12,7 @@
     margin: 0;
     padding: 0;
     cursor: pointer;
+    z-index: 100;
 }
 
 .popup__closed:hover {

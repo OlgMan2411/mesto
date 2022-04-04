@@ -5,7 +5,8 @@
     object-fit: cover;
     object-position: center;
     z-index: 51;
-    margin: 0;
+    margin: auto;
+    background-color: transparent;
     padding: 0;
 }
 

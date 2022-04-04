@@ -1,7 +1,6 @@
 .popup__closed_picview {
     top: -8px;
     left: calc(100% + 8px);
-    z-index: 62;
 }
 
 @media screen and (max-width: 767px) {
