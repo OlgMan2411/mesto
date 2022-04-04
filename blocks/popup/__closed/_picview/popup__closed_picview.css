@@ -1,12 +1,13 @@
 .popup__closed_picview {
     top: -8px;
     left: calc(100% + 8px);
-};
-
+    z-index: 62;
+}
 
 @media screen and (max-width: 767px) {
     .popup__closed_picview {
-        /* position: absolute;         */        
-        left: 240px;
+        position: absolute;                
+        top: -36px;
+        left: 220px;
     }
-};
+}
