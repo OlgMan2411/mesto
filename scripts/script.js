@@ -1,3 +1,30 @@
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
+
 // Элементы открывания попапов
 const openProfileButton = document.querySelector(".profile__edit-batton");
 const openAddCardButton = document.querySelector('.profile__add-batton');
@@ -37,6 +64,31 @@ const profileFormSave = document.querySelector('.popup_type_profileEdit .form__s
 
 // Для слушателя кнопки сохранения профиля
 const newCardSave = newCardPopup.querySelector('.popup_type_addCard .form__saved');
+
+const makeCard = (link, name) => {
+  // клонируем содержимое тега template  
+  const addElement = elementTemplate.querySelector('.elements__element').cloneNode(true);
+  const heartToCheck = addElement.querySelector('.elements__like');
+  const toDelete = addElement.querySelector('.elements__delete');
+  const toPicview = addElement.querySelector('.elements__foto');
+
+  // наполняем содержимым
+  toPicview.src = link;  
+  addElement.querySelector('.elements__title').textContent = name;
+
+  heartToCheck.addEventListener('click', function() {
+    heartToCheck.classList.toggle('elements__like_active');
+  });
+
+  toDelete.addEventListener('click', function() {
+    addElement.remove();
+  } );
+
+  toPicview.addEventListener('click', function() {
+    openPicviewPopup(link, name);
+  });
+  return addElement;
+};
 
 function openEditProfilePopup() {
   profilEditPop.classList.toggle('popup_opened');
@@ -91,68 +143,9 @@ const openPicviewPopup = (link, name) => {
 };
 
 closeViewPhoto.addEventListener('click', () => {closePopup(picviewPopup)});
-// closePicPopup.addEventListener('click', function() {
-//   popupPicCloser(picviewElements);
-// }
-// );
-
-
-
-
-const initialCards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-  ];
-
-const makeCard = (link, name) => {
-  // клонируем содержимое тега template  
-  const addElement = elementTemplate.querySelector('.elements__element').cloneNode(true);
-  const heartToCheck = addElement.querySelector('.elements__like');
-  const toDelete = addElement.querySelector('.elements__delete');
-  const toPicview = addElement.querySelector('.elements__foto');
-
-  // наполняем содержимым
-  toPicview.src = link;  
-  addElement.querySelector('.elements__title').textContent = name;
-
-  heartToCheck.addEventListener('click', function() {
-    heartToCheck.classList.toggle('elements__like_active');
-  });
-
-  toDelete.addEventListener('click', function() {
-    addElement.remove();
-  } );
-
-  toPicview.addEventListener('click', function() {
-    openPicviewPopup(link, name);
-  });
-  return addElement;
-};
 
 // Накидываем карточек из уже имеющихся данных
 initialCards.forEach((item) => {
-  let newCard = makeCard(item.link, item.name);  
+  const newCard = makeCard(item.link, item.name);  
   elements.append(newCard);  
 });

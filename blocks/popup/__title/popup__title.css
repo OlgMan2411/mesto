@@ -9,5 +9,11 @@
     position: absolute;
     bottom: -20px;    
     z-index: 82;
-};
+}
+
+@media screen and (max-width: 767px) {
+    .popup__title {
+        bottom: 0;
+    }
+}
 
