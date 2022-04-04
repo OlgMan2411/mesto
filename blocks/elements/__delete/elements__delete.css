@@ -7,10 +7,10 @@
     width: 18px;
     height: 19px;
     border: none;
-    box-sizing: border-box;    
-    background-color: transparent;      
+    box-sizing: border-box;
+    background-color: transparent;
     background-image: url(../../../images/delete.svg);
-    background-size: cover;    
+    background-size: cover;
     cursor: pointer;
     z-index: 40;
 }
