@@ -6,7 +6,7 @@
 
 @media screen and (max-width: 767px) {
     .popup__closed_picview {
-        position: absolute;                
+        position: absolute;
         top: -36px;
         left: 220px;
     }
