@@ -8,9 +8,8 @@
 
 @media screen and (max-width: 767px) {
     .popup__container_picview {
-        top: 100px;        
+        top: 100px;
         width: 240px;
-        height: 299px;
-        /* padding: 25px 22px; */
+        height: 299px;        
     }
 }
