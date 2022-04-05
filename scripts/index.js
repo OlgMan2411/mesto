@@ -79,11 +79,11 @@ function openEditProfilePopup() {
 };
 
 function openPopup(popup) {
-  popup.classList.toggle('popup_opened');
+  popup.classList.add('popup_opened');
 };
 
 function closePopup(popup) {
-  popup.classList.toggle('popup_opened');
+  popup.classList.remove('popup_opened');
 };
 
 function closeAddPhotoPopup() {
