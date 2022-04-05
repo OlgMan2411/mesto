@@ -73,7 +73,7 @@ const makeCard = (link, name) => {
 };
 
 function openEditProfilePopup() {
-  profilEditPop.classList.toggle('popup_opened');
+  profilEditPop.classList.add('popup_opened');
   profNameInput.value = profileName.textContent;
   profJobInput.value = profileProfession.textContent;
 };
@@ -87,7 +87,7 @@ function closePopup(popup) {
 };
 
 function closeAddPhotoPopup() {
-  newCardPopup.classList.toggle('popup_opened');
+  newCardPopup.classList.remove('popup_opened');
   addCardfNameInput.value = '';
   addCardLinkInput.value = '';
 };
