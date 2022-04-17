@@ -1,4 +1,5 @@
 .popup__container {
+    height: 259px;
     margin: 0;
     padding: 0;
     display: flex;

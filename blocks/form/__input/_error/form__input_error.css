@@ -1,0 +1,13 @@
+.form__input_error {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.25;
+    margin-top: 5px;
+
+    color: #FF0000;
+    display: block;
+    visibility: hidden;
+
+}

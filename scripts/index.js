@@ -1,4 +1,4 @@
-// Элементы открывания попапов
+// Открывашки
 const openProfileButton = document.querySelector(".profile__edit-batton");
 const openAddCardButton = document.querySelector('.profile__add-batton');
 
@@ -24,7 +24,6 @@ const profileProfession = document.querySelector('.profile__profession');
 const profNameInput = profilEditPop.querySelector('.popup_type_profileEdit .form__input_name');  
 const profJobInput = profilEditPop.querySelector('.popup_type_profileEdit .form__input_profession');
 
-
 // Поля ввода новой карточки с фото
 const addCardfNameInput = newCardPopup.querySelector('.popup_type_addCard .form__input_name');  
 const addCardLinkInput = newCardPopup.querySelector('.popup_type_addCard .form__input_profession');
@@ -34,10 +33,10 @@ const elementTemplate = document.querySelector('#element-template').content;
 const elements = document.querySelector('.elements'); 
 
 // Для слушателя кнопки сохранения профиля
-const profileFormSave = profilEditPop.querySelector('.popup_type_profileEdit .form__saved');
+const profileFormSave = profilEditPop.querySelector('.popup_type_profileEdit .form__save');
 
 // Для слушателя кнопки сохранения профиля
-const newCardSave = newCardPopup.querySelector('.popup_type_addCard .form__saved');
+const newCardSave = newCardPopup.querySelector('.popup_type_addCard .form__save');
 
 // Вызов окна просмотра фотографии
 const openPicviewPopup = (link, name) => {  
