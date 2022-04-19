@@ -5,8 +5,8 @@
     background-size: cover;
     background-color: transparent;
     border: none;
-    position: relative;
-    top: -8px;
+    position: absolute;
+    top: -40px;
     left: 438px;
     opacity: 1;
     margin: 0;
@@ -24,7 +24,7 @@
     .popup__closed {
         width: 20px;
         height: 20px;
-        top: -16px;
-        left: 262px;
+        top: -8px;
+        left: 282px;
     }
 }

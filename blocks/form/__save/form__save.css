@@ -1,29 +1,32 @@
-.form__saved {
+.form__save {
     width: 100%;
     min-height: 50px;
-    background-color: #000000;
+    background-color: white;
+    border: 1px solid #000;
+    color: #000000;
+    opacity: .2;    
     padding: 0;
     margin: 0;
     font-family: 'Inter', 'Arial', sans-serif;
-    color: white;
+    
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
     line-height: 1.22;
     text-align: center;
-    border: none;
+    
     border-radius: 2px;
-    opacity: 1;
+    
     cursor: pointer;
 }
 
-.form__saved:hover {
+.form__save:hover {
     opacity: 0.8;
     transition: opacity 1s linear;
 }
 
 @media screen and (max-width: 767px) {
-    .form__saved {
+    .form__save {
         min-height: 46px;
         font-size: 14px;
         line-height: 1.21;
