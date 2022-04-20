@@ -91,10 +91,11 @@ function closeAddPhotoPopup() {
   addCardLinkInput.value = '';
 };
 
-function profileFormSubmitHandler (evt) {
-  evt.preventDefault(); 
+function profileFormSubmitHandler () {
+  // evt.preventDefault(); 
   profileName.textContent = profNameInput.value;
   profileProfession.textContent = profJobInput.value;  
+  // console.log('Запустился хэндлер сабмита №1');
   closePopup(profilEditPop)    
 };
 
@@ -107,7 +108,7 @@ function addCardFormSubmitHandler (evt) {
 // Слушатели попапа редактирования профиля
 openProfileButton.addEventListener('click', () => {openEditProfilePopup()});
 closeProfileEdit.addEventListener('click', () => {closePopup(profilEditPop)});
-profileFormSave.addEventListener('click', profileFormSubmitHandler);
+// profileFormSave.addEventListener('click', profileFormSubmitHandler);
 
 // Слушатели попапа ввода новой фотки
 openAddCardButton.addEventListener('click', () => {openPopup(newCardPopup)});

@@ -1,9 +1,10 @@
 .form__input_error {
-    min-height: 15px;
+    height: 30px;
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
+    text-align: start;
     line-height: 1.25;
     margin-top: 5px;
 
