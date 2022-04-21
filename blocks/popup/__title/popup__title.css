@@ -13,7 +13,7 @@
 
 @media screen and (max-width: 767px) {
     .popup__title {
-        bottom: 0;
+        bottom: -8px;
     }
 }
 
