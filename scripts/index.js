@@ -11,9 +11,6 @@ const newCardPopup = document.querySelector('.popup_type_addCard');
 // Попап открытия просмотра фото
 const picviewPopup = document.querySelector('.popup_type_picview');
 
-// // Любой попап
-// const anyPopup = document.querySelector('.popup');
-
 // Закрывашки
 const closerProfileEdit = profilEditPop.querySelector('.popup_type_profileEdit .popup__closed');
 const closerAddPhoto = newCardPopup.querySelector('.popup_type_addCard .popup__closed');
@@ -40,19 +37,18 @@ const openPicviewPopup = (link, name) => {
   picviewPopup.querySelector('.popup__photo').src = link;
   picviewPopup.querySelector('.popup__title').textContent = name;
   picviewPopup.querySelector('.popup__photo').alt = name;
-  document.addEventListener('keydown', closeByEsc);
   openPopup(picviewPopup);
 };
 
 const makeCard = (link, name) => {
-  // клонируем содержимое тега template  
+  // клонируем содержимое тега template
   const addElement = elementTemplate.querySelector('.elements__element').cloneNode(true);
   const heartToCheck = addElement.querySelector('.elements__like');
   const toDelete = addElement.querySelector('.elements__delete');
   const toPicview = addElement.querySelector('.elements__foto');
 
   // наполняем содержимым
-  toPicview.src = link;  
+  toPicview.src = link;
   addElement.querySelector('.elements__title').textContent = name;
 
   heartToCheck.addEventListener('click', function() {
@@ -64,12 +60,13 @@ const makeCard = (link, name) => {
   } );
 
   toPicview.addEventListener('click', function() {
+    document.addEventListener('keydown', closeByEsc);
     openPicviewPopup(link, name);
   });
   return addElement;
 };
 
-function openEditProfilePopup() {   
+function openEditProfilePopup() {
   profilEditPop.classList.add('popup_opened');
   profNameInput.value = profileName.textContent;
   profJobInput.value = profileProfession.textContent;
@@ -79,7 +76,7 @@ function openPopup(popup) {
   popup.classList.add('popup_opened');
 };
 
-function closePopup(popup) {  
+function closePopup(popup) {
   popup.classList.remove('popup_opened');
 };
 
@@ -88,7 +85,7 @@ function closePopup(popup) {
 const closeByEsc = (event) => {
   if (event.key === 'Escape') {
     const currentPopup = document.querySelector('.popup');
-    currentPopup.remove('popup_opened');    
+    currentPopup.remove('popup_opened');
     event.target.removeEventListener('keydown', closeByEsc);
   };
 };
@@ -100,26 +97,26 @@ function closeAddPhotoPopup() {
 };
 
 function profileFormSubmitHandler () {
-  // evt.preventDefault(); 
+  // evt.preventDefault();
   profileName.textContent = profNameInput.value;
   profileProfession.textContent = profJobInput.value;
-  closePopup(profilEditPop)    
+  closePopup(profilEditPop)
 };
 
 function addCardFormSubmitHandler () {
-  // evt.preventDefault(); 
+  // evt.preventDefault();
   elements.prepend(makeCard(addCardLinkInput.value, addCardfNameInput.value));
   closePopup(newCardPopup);
 };
 
 // Закрыватель попапа по клику вне
-const closePopupByOutClick = () => {  
+const closePopupByOutClick = () => {
   document.addEventListener('click', (evt) => {
     const clickedElem = evt.target;
     if (clickedElem.classList.contains('popup')) {
-      closePopup(clickedElem);      
+      closePopup(clickedElem);
     };
-  });  
+  });
 };
 
 closePopupByOutClick(); // Универсальный закрыватель попапов по клику вне формы
@@ -149,6 +146,6 @@ closerViewPhoto.addEventListener('click', () => {
 // Накидываем карточек из уже имеющихся данных
 initialCards.forEach((item) => {
   const newCard = makeCard(item.link, item.name);
-  elements.append(newCard);  
+  elements.append(newCard);
 });
 
