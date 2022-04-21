@@ -1,6 +1,6 @@
-.popup {    
+.popup {
     display: flex;
-    flex-direction: column;    
+    flex-direction: column;
     align-items: center;
     visibility: hidden;
     opacity: 0;
