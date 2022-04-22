@@ -1,6 +1,6 @@
 const validClasses = {
-  editUserId: 'editUser',
-  addCardID: 'addCard',
+  // formNames: ['editUser', 'addCard'],
+  inputClasses: ['.form__input_name', '.form__input_profession'],
   saveFormClass: '.form__save',
   activeSubmitButtonClass: 'form__save_active'
 }; 
@@ -9,8 +9,10 @@ const validClasses = {
 const setSaveButtonState = (buttonElement, isValid, activeSubmitButtonClass) => {
   if (isValid) {
     buttonElement.classList.add(activeSubmitButtonClass);
+    buttonElement.removeAttribute('disabled');
   } else {
     buttonElement.classList.remove(activeSubmitButtonClass);
+    buttonElement.setAttribute('disabled', '');
   }
 };
 
@@ -24,45 +26,47 @@ const handleSubmit = (event, handler) => {
   event.preventDefault();  
   const currentForm = event.target;
 
-  if (currentForm.checkValidity()) {    
+  if (currentForm.checkValidity()) {
     handler();
     currentForm.reset();
   }
 };
 
-const handleInput = (event, buttonElement, activeSubmitButtonClass) => {
+const handleInput = (event, buttonElement, inputList, activeSubmitButtonClass) => {
   const currentForm = event.currentTarget;
-  const input = event.target;  
+  
 
-  validateInput(input);
+  inputList.forEach((inputClass) => {
+    const inputElement = currentForm.querySelector(inputClass);
+    validateInput(inputElement);
+  });
+
   setSaveButtonState(buttonElement, currentForm.checkValidity(), activeSubmitButtonClass)
   
 };
 
 const enableValidation = (valClasses) => {
-  const UserForm = document.forms[valClasses.editUserId];
-  const CardForm = document.forms[valClasses.addCardID];  
+  const formList = Array.from(document.forms);
+  
+  formList.forEach((formElement) => {
+    const formSaveBtn = formElement.querySelector(valClasses.saveFormClass);
+    
+    if (formElement.name === 'editUser') {
+      formElement.addEventListener('submit', (evt) => {
+        handleSubmit(evt, profileFormSubmitHandler);
+      });
+    }
 
-  // Для слушателя кнопки сохранения профиля
-  const profileFormSaveBtn = UserForm.querySelector(valClasses.saveFormClass);
+    if (formElement.name === 'addCard') {
+      formElement.addEventListener('submit', (evt) => {
+        handleSubmit(evt, addCardFormSubmitHandler);
+      });
+    }
 
-  // Для слушателя кнопки сохранения новой карты
-  const newCardSaveBtn = CardForm.querySelector(valClasses.saveFormClass);
-
-  UserForm.addEventListener('submit', (evt) => {
-    // profileFormSubmitHandler();
-    handleSubmit(evt, profileFormSubmitHandler);
+    formElement.addEventListener('input', (evt) => {
+      handleInput(evt, formSaveBtn, valClasses.inputClasses, valClasses.activeSubmitButtonClass);
+    });
   });
-  CardForm.addEventListener('submit', (evt) => {    
-    handleSubmit(evt, addCardFormSubmitHandler);    
-  });
-
-  UserForm.addEventListener('input', (evt) => {
-    handleInput(evt, profileFormSaveBtn, valClasses.activeSubmitButtonClass);
-  });
-  CardForm.addEventListener('input', (evt) => {
-    handleInput(evt, newCardSaveBtn, valClasses.activeSubmitButtonClass);
-  });  
 };
 
-enableValidation(validClasses)
+enableValidation(validClasses);

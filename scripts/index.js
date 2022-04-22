@@ -32,11 +32,16 @@ const addCardLinkInput = newCardPopup.querySelector('.popup_type_addCard .form__
 const elementTemplate = document.querySelector('#element-template').content;
 const elements = document.querySelector('.elements'); 
 
+// Элементы просмотра фотографии
+const picviewPopupPhoto = picviewPopup.querySelector('.popup__photo');
+const picviewPopupTitle = picviewPopup.querySelector('.popup__title');
+
+
 // Вызов окна просмотра фотографии
 const openPicviewPopup = (link, name) => {
-  picviewPopup.querySelector('.popup__photo').src = link;
-  picviewPopup.querySelector('.popup__title').textContent = name;
-  picviewPopup.querySelector('.popup__photo').alt = name;
+  picviewPopupPhoto.src = link;  
+  picviewPopupPhoto.alt = name;
+  picviewPopupTitle.textContent = name;
   openPopup(picviewPopup);
 };
 
@@ -49,6 +54,7 @@ const makeCard = (link, name) => {
 
   // наполняем содержимым
   toPicview.src = link;
+  toPicview.alt = name;
   addElement.querySelector('.elements__title').textContent = name;
 
   heartToCheck.addEventListener('click', function() {
@@ -60,70 +66,69 @@ const makeCard = (link, name) => {
   } );
 
   toPicview.addEventListener('click', function() {
-    document.addEventListener('keydown', closeByEsc);
     openPicviewPopup(link, name);
   });
   return addElement;
 };
 
 function openEditProfilePopup() {
-  profilEditPop.classList.add('popup_opened');
+  // profilEditPop.classList.add('popup_opened');
   profNameInput.value = profileName.textContent;
   profJobInput.value = profileProfession.textContent;
+  openPopup(profilEditPop);
 };
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closeByEsc);
+  closePopupByOutClick(popup);
 };
 
-function closePopup(popup) {
+function closePopup(popup) {  
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closeByEsc);
 };
 
 // Закрыть попап нажатием esc
 
 const closeByEsc = (event) => {
   if (event.key === 'Escape') {
-    const currentPopup = document.querySelector('.popup');
-    currentPopup.remove('popup_opened');
-    event.target.removeEventListener('keydown', closeByEsc);
+    const currentPopup = document.querySelector('.popup_opened');
+    closePopup(currentPopup);
   };
 };
 
 function closeAddPhotoPopup() {
-  newCardPopup.classList.remove('popup_opened');
+  closePopup(newCardPopup);  
   addCardfNameInput.value = '';
   addCardLinkInput.value = '';
 };
 
 function profileFormSubmitHandler () {
-  // evt.preventDefault();
   profileName.textContent = profNameInput.value;
   profileProfession.textContent = profJobInput.value;
   closePopup(profilEditPop)
 };
 
 function addCardFormSubmitHandler () {
-  // evt.preventDefault();
   elements.prepend(makeCard(addCardLinkInput.value, addCardfNameInput.value));
   closePopup(newCardPopup);
 };
 
 // Закрыватель попапа по клику вне
-const closePopupByOutClick = () => {
-  document.addEventListener('click', (evt) => {
-    const clickedElem = evt.target;
-    if (clickedElem.classList.contains('popup')) {
-      closePopup(clickedElem);
+const closePopupByOutClick = (popup) => {
+  popup.addEventListener('click', (evt) => {
+    const clickedElem = evt.target;    
+    if (clickedElem.classList.contains('popup_opened')) {
+      closePopup(popup);
     };
   });
 };
 
-closePopupByOutClick(); // Универсальный закрыватель попапов по клику вне формы
+// closePopupByOutClick(); // Универсальный закрыватель попапов по клику вне формы
 
 // Слушатели попапа редактирования профиля
-openerProfileButton.addEventListener('click', () => {
-  document.addEventListener('keydown', closeByEsc);
+openerProfileButton.addEventListener('click', () => {  
   openEditProfilePopup();
 });
 
@@ -132,8 +137,7 @@ closerProfileEdit.addEventListener('click', () => {
 });
 
 // Слушатели попапа ввода новой фотки
-openerAddCardButton.addEventListener('click', () => {
-  document.addEventListener('keydown', closeByEsc);
+openerAddCardButton.addEventListener('click', () => {  
   openPopup(newCardPopup);
 });
 closerAddPhoto.addEventListener('click', () => {closeAddPhotoPopup()});
