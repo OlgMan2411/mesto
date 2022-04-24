@@ -44,6 +44,16 @@ const addCardLinkInput = newCardPopup.querySelector(
 const elementTemplate = document.querySelector("#element-template").content;
 const elements = document.querySelector(".elements");
 
+// Для слушателя кнопки сохранения профиля
+const profileFormSave = profilEditPop.querySelector(
+  ".popup_type_profileEdit .form__saved"
+);
+
+// Для слушателя кнопки сохранения профиля
+const newCardSave = newCardPopup.querySelector(
+  ".popup_type_addCard .form__saved"
+);
+
 // Элементы просмотра фотографии
 const picviewPopupPhoto = picviewPopup.querySelector(".popup__photo");
 const picviewPopupTitle = picviewPopup.querySelector(".popup__title");
@@ -94,12 +104,13 @@ function openEditProfilePopup() {
 function openPopup(popup) {
   popup.classList.add("popup_opened");
   document.addEventListener("keydown", closeByEsc);
-  closePopupByOutClick(popup);
+  popup.addEventListener("click", closePopupByOutClick);
 }
 
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
   document.removeEventListener("keydown", closeByEsc);
+  popup.removeEventListener("click", closePopupByOutClick);
 }
 
 // Закрыть попап нажатием esc
@@ -129,20 +140,20 @@ function addCardFormSubmitHandler() {
 }
 
 // Закрыватель попапа по клику вне
-const closePopupByOutClick = (popup) => {
-  popup.addEventListener("click", (evt) => {
-    const clickedElem = evt.target;
-    if (clickedElem.classList.contains("popup_opened")) {
-      closePopup(popup);
-    }
-  });
+const closePopupByOutClick = (evt) => {
+  const clickedElem = evt.target;
+  if (clickedElem.classList.contains("popup_opened")) {
+    closePopup(clickedElem);
+  }
 };
-
-// closePopupByOutClick(); // Универсальный закрыватель попапов по клику вне формы
 
 // Слушатели попапа редактирования профиля
 openerProfileButton.addEventListener("click", () => {
+  const formSaveBtn = profilEditPop.querySelector(
+    validClasses.submitButtonSelector
+  );
   openEditProfilePopup();
+  formSaveBtn.addEventListener("click", profileFormSubmitHandler);
 });
 
 closerProfileEdit.addEventListener("click", () => {
@@ -151,9 +162,12 @@ closerProfileEdit.addEventListener("click", () => {
 
 // Слушатели попапа ввода новой фотки
 openerAddCardButton.addEventListener("click", () => {
-  const formSaveBtn = newCardPopup.querySelector(validClasses.saveFormClass);
+  const formSaveBtn = newCardPopup.querySelector(
+    validClasses.submitButtonSelector
+  );
   formSaveBtn.setAttribute("disabled", "");
   openPopup(newCardPopup);
+  formSaveBtn.addEventListener("click", addCardFormSubmitHandler);
 });
 
 closerAddPhoto.addEventListener("click", () => {

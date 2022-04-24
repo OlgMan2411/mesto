@@ -26,7 +26,7 @@
 @import url(../blocks/form/__input/form__input.css);
 @import url(../blocks/form/__input/_grey-placehold/form__input_grey-placehold.css);
 @import url(../blocks/form/__input/_type-error/form__input_type-error.css);
-@import url(../blocks/form/__input/_error/form__input_error.css);
+@import url(../blocks/form/__input-error/form__input-error.css);
 @import url(../blocks/form/__save/form__save.css);
 @import url(../blocks/form/__save/_active/form__save_active.css);
 
