@@ -1,71 +1,94 @@
 const validClasses = {
-  // formNames: ['editUser', 'addCard'],
-  inputClasses: ['.form__input_name', '.form__input_profession'],
-  saveFormClass: '.form__save',
-  activeSubmitButtonClass: 'form__save_active'
-}; 
+  formSelector: ".form",
+  inputSelector: ".form__input",
+  submitButtonSelector: ".form__save",
+  activeSubmitButtonClass: "form__save_active",
+  inputErrorClass: "form__input_type-error",
+};
+
+const hasInvalidInput = (inputList) => {
+  return inputList.some((inputElement) => {
+    return !inputElement.validity.valid;
+  });
+};
 
 // Включить или выключить кнопку сохранить
-const setSaveButtonState = (buttonElement, isValid, activeSubmitButtonClass) => {
-  if (isValid) {
-    buttonElement.classList.add(activeSubmitButtonClass);
-    buttonElement.removeAttribute('disabled');
-  } else {
+function toggleButtonState(inputList, buttonElement, activeSubmitButtonClass) {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.setAttribute("disabled", true);
     buttonElement.classList.remove(activeSubmitButtonClass);
-    buttonElement.setAttribute('disabled', '');
+  } else {
+    buttonElement.removeAttribute("disabled");
+    buttonElement.classList.add(activeSubmitButtonClass);
+  }
+}
+
+const showInputError = (
+  formElement,
+  inputElement,
+  errorMessage,
+  valClasses
+) => {
+  const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+  inputElement.classList.add(valClasses.inputErrorClass);
+  errorElement.textContent = errorMessage;
+};
+
+const hideInputError = (formElement, inputElement, valClasses) => {
+  const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+  inputElement.classList.remove(valClasses.inputErrorClass);
+  errorElement.textContent = "";
+};
+
+const checkInputValidity = (formElement, inputElement, valClasses) => {
+  if (!inputElement.validity.valid) {
+    showInputError(
+      formElement,
+      inputElement,
+      inputElement.validationMessage,
+      valClasses
+    );
+  } else {
+    hideInputError(formElement, inputElement, valClasses);
   }
 };
 
-const validateInput = (input) => {  
-  const errorElement = input.parentNode.querySelector(`#${input.id}-error`);
-  errorElement.textContent = '';
-  errorElement.textContent = input.validationMessage;  
-};
+const setEventListeners = (formElement, valClasses) => {
+  const inputList = Array.from(
+    formElement.querySelectorAll(valClasses.inputSelector)
+  );
+  const buttonElement = formElement.querySelector(
+    valClasses.submitButtonSelector
+  );
 
-const handleSubmit = (event, handler) => {
-  event.preventDefault();  
-  const currentForm = event.target;
+  toggleButtonState(
+    inputList,
+    buttonElement,
+    valClasses.activeSubmitButtonClass
+  );
 
-  if (currentForm.checkValidity()) {
-    handler();
-    currentForm.reset();
-  }
-};
-
-const handleInput = (event, buttonElement, inputList, activeSubmitButtonClass) => {
-  const currentForm = event.currentTarget;
-  
-
-  inputList.forEach((inputClass) => {
-    const inputElement = currentForm.querySelector(inputClass);
-    validateInput(inputElement);
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener("input", function () {
+      checkInputValidity(formElement, inputElement, valClasses);
+      toggleButtonState(
+        inputList,
+        buttonElement,
+        valClasses.activeSubmitButtonClass
+      );
+    });
   });
-
-  setSaveButtonState(buttonElement, currentForm.checkValidity(), activeSubmitButtonClass)
-  
 };
 
 const enableValidation = (valClasses) => {
-  const formList = Array.from(document.forms);
-  
+  const formList = Array.from(
+    document.querySelectorAll(valClasses.formSelector)
+  );
+
   formList.forEach((formElement) => {
-    const formSaveBtn = formElement.querySelector(valClasses.saveFormClass);
-    
-    if (formElement.name === 'editUser') {
-      formElement.addEventListener('submit', (evt) => {
-        handleSubmit(evt, profileFormSubmitHandler);
-      });
-    }
-
-    if (formElement.name === 'addCard') {
-      formElement.addEventListener('submit', (evt) => {
-        handleSubmit(evt, addCardFormSubmitHandler);
-      });
-    }
-
-    formElement.addEventListener('input', (evt) => {
-      handleInput(evt, formSaveBtn, valClasses.inputClasses, valClasses.activeSubmitButtonClass);
+    formElement.addEventListener("submit", function (evt) {
+      evt.preventDefault();
     });
+    setEventListeners(formElement, valClasses);
   });
 };
 
