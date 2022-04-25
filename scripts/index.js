@@ -93,7 +93,7 @@ const setSaveBtnInactive = (buttonElement) => {
   buttonElement.classList.remove("form__save_active");
 };
 
-function openEditProfilePopup() {  
+function openEditProfilePopup() {
   profNameInput.value = profileName.textContent;
   profJobInput.value = profileProfession.textContent;
   openPopup(profilEditPop);
@@ -127,7 +127,8 @@ function closeAddPhotoPopup() {
 
 function profileFormSubmitHandler() {
   profileName.textContent = profNameInput.value;
-  profileProfession.textContent = profJobInput.value;  
+  profileProfession.textContent = profJobInput.value;
+
   closePopup(profilEditPop);
 }
 
@@ -146,7 +147,7 @@ const closePopupByOutClick = (evt) => {
 
 // Слушатели открытия попапа редактирования профиля
 // открыть
-openerProfileButton.addEventListener("click", () => {  
+openerProfileButton.addEventListener("click", () => {
   openEditProfilePopup();
   // setSaveBtnInactive(profileFormSaveBtn);
 });
