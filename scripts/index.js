@@ -40,19 +40,13 @@ const addCardLinkInput = newCardPopup.querySelector(
   ".popup_type_addCard .form__input_profession"
 );
 
-// Куда шаблон новой карточки и куда ее вставляем profileFormSubmitHandler
+// Шаблон новой карточки и куда ее вставляем profileFormSubmitHandler
 const elementTemplate = document.querySelector("#element-template").content;
 const elements = document.querySelector(".elements");
 
-// Для слушателя кнопки сохранения профиля
-const profileFormSave = profilEditPop.querySelector(
-  ".popup_type_profileEdit .form__saved"
-);
-
-// Для слушателя кнопки сохранения профиля
-const newCardSave = newCardPopup.querySelector(
-  ".popup_type_addCard .form__saved"
-);
+// Кнопки сохранения
+const profileFormSaveBtn = newCardPopup.querySelector(".form__save");
+const newCardSaveBtn = newCardPopup.querySelector(".form__save");
 
 // Элементы просмотра фотографии
 const picviewPopupPhoto = picviewPopup.querySelector(".popup__photo");
@@ -94,8 +88,12 @@ const makeCard = (link, name) => {
   return addElement;
 };
 
+const setSaveBtnInactive = (buttonElement) => {
+  buttonElement.setAttribute("disabled", true);
+  buttonElement.classList.remove("form__save_active");
+};
+
 function openEditProfilePopup() {
-  // profilEditPop.classList.add('popup_opened');
   profNameInput.value = profileName.textContent;
   profJobInput.value = profileProfession.textContent;
   openPopup(profilEditPop);
@@ -114,7 +112,6 @@ function closePopup(popup) {
 }
 
 // Закрыть попап нажатием esc
-
 const closeByEsc = (event) => {
   if (event.key === "Escape") {
     const currentPopup = document.querySelector(".popup_opened");
@@ -131,12 +128,13 @@ function closeAddPhotoPopup() {
 function profileFormSubmitHandler() {
   profileName.textContent = profNameInput.value;
   profileProfession.textContent = profJobInput.value;
+
   closePopup(profilEditPop);
 }
 
 function addCardFormSubmitHandler() {
   elements.prepend(makeCard(addCardLinkInput.value, addCardfNameInput.value));
-  closePopup(newCardPopup);
+  closeAddPhotoPopup();
 }
 
 // Закрыватель попапа по клику вне
@@ -147,29 +145,38 @@ const closePopupByOutClick = (evt) => {
   }
 };
 
-// Слушатели попапа редактирования профиля
+// Слушатели открытия попапа редактирования профиля
+// открыть
 openerProfileButton.addEventListener("click", () => {
-  const formSaveBtn = profilEditPop.querySelector(
-    validClasses.submitButtonSelector
-  );
   openEditProfilePopup();
-  formSaveBtn.addEventListener("click", profileFormSubmitHandler);
+  // setSaveBtnInactive(profileFormSaveBtn);
 });
 
+// заполнить введенными данными
+profilEditPop.addEventListener("submit", function (evt) {
+  evt.preventDefault();
+  profileFormSubmitHandler();
+});
+
+// закрыть
 closerProfileEdit.addEventListener("click", () => {
   closePopup(profilEditPop);
 });
 
 // Слушатели попапа ввода новой фотки
+// открыть
 openerAddCardButton.addEventListener("click", () => {
-  const formSaveBtn = newCardPopup.querySelector(
-    validClasses.submitButtonSelector
-  );
-  formSaveBtn.setAttribute("disabled", "");
+  setSaveBtnInactive(newCardSaveBtn);
   openPopup(newCardPopup);
-  formSaveBtn.addEventListener("click", addCardFormSubmitHandler);
 });
 
+// заполнить введенными данными
+newCardPopup.addEventListener("submit", function (evt) {
+  evt.preventDefault();
+  addCardFormSubmitHandler();
+});
+
+// закрыть
 closerAddPhoto.addEventListener("click", () => {
   closeAddPhotoPopup();
 });
