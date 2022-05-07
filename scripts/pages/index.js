@@ -1,6 +1,16 @@
+import initialCards from "../constants/cardsData.js";
+import validClasses from "../constants/validClassesSelectors.js";
+import FormValidator from "../FormValidator.js";
+import Card from "../Card.js";
+
 // Открывашки
 const openerProfileButton = document.querySelector(".profile__edit-batton");
 const openerAddCardButton = document.querySelector(".profile__add-batton");
+
+// Список форм
+const formList = Array.from(
+  document.querySelectorAll(validClasses.formSelector)
+);
 
 // Попап редактирования профиля
 const profilEditPop = document.querySelector(".popup_type_profileEdit");
@@ -41,11 +51,9 @@ const addCardLinkInput = newCardPopup.querySelector(
 );
 
 // Шаблон новой карточки и куда ее вставляем profileFormSubmitHandler
-const elementTemplate = document.querySelector("#element-template").content;
 const elements = document.querySelector(".elements");
 
 // Кнопки сохранения
-const profileFormSaveBtn = newCardPopup.querySelector(".form__save");
 const newCardSaveBtn = newCardPopup.querySelector(".form__save");
 
 // Элементы просмотра фотографии
@@ -58,34 +66,6 @@ const openPicviewPopup = (link, name) => {
   picviewPopupPhoto.alt = name;
   picviewPopupTitle.textContent = name;
   openPopup(picviewPopup);
-};
-
-const makeCard = (link, name) => {
-  // клонируем содержимое тега template
-  const addElement = elementTemplate
-    .querySelector(".elements__element")
-    .cloneNode(true);
-  const heartToCheck = addElement.querySelector(".elements__like");
-  const toDelete = addElement.querySelector(".elements__delete");
-  const toPicview = addElement.querySelector(".elements__foto");
-
-  // наполняем содержимым
-  toPicview.src = link;
-  toPicview.alt = name;
-  addElement.querySelector(".elements__title").textContent = name;
-
-  heartToCheck.addEventListener("click", function () {
-    heartToCheck.classList.toggle("elements__like_active");
-  });
-
-  toDelete.addEventListener("click", function () {
-    addElement.remove();
-  });
-
-  toPicview.addEventListener("click", function () {
-    openPicviewPopup(link, name);
-  });
-  return addElement;
 };
 
 const setSaveBtnInactive = (buttonElement) => {
@@ -133,7 +113,15 @@ function profileFormSubmitHandler() {
 }
 
 function addCardFormSubmitHandler() {
-  elements.prepend(makeCard(addCardLinkInput.value, addCardfNameInput.value));
+  const card = new Card(
+    addCardLinkInput.value,
+    addCardfNameInput.value,
+    "#element-template",
+    openPicviewPopup
+  );
+  const cardElement = card.renderElements();
+  elements.prepend(cardElement);
+
   closeAddPhotoPopup();
 }
 
@@ -186,8 +174,19 @@ closerViewPhoto.addEventListener("click", () => {
   closePopup(picviewPopup);
 });
 
+formList.forEach((rawFormElement) => {
+  const formElement = new FormValidator(validClasses, rawFormElement);
+  formElement.enableValidation();
+});
+
 // Накидываем карточек из уже имеющихся данных
 initialCards.forEach((item) => {
-  const newCard = makeCard(item.link, item.name);
-  elements.append(newCard);
+  const card = new Card(
+    item.name,
+    item.link,
+    "#element-template",
+    openPicviewPopup
+  );
+  const cardElement = card.renderElements();
+  elements.append(cardElement);
 });
