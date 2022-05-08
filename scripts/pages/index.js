@@ -7,11 +7,6 @@ import Card from "../Card.js";
 const openerProfileButton = document.querySelector(".profile__edit-batton");
 const openerAddCardButton = document.querySelector(".profile__add-batton");
 
-// Список форм
-const formList = Array.from(
-  document.querySelectorAll(validClasses.formSelector)
-);
-
 // Попап редактирования профиля
 const profilEditPop = document.querySelector(".popup_type_profileEdit");
 
@@ -51,14 +46,28 @@ const addCardLinkInput = newCardPopup.querySelector(
 );
 
 // Шаблон новой карточки и куда ее вставляем profileFormSubmitHandler
-const elements = document.querySelector(".elements");
-
-// Кнопки сохранения
-const newCardSaveBtn = newCardPopup.querySelector(".form__save");
+const element = document.querySelector(".elements");
 
 // Элементы просмотра фотографии
 const picviewPopupPhoto = picviewPopup.querySelector(".popup__photo");
 const picviewPopupTitle = picviewPopup.querySelector(".popup__title");
+
+const formValidators = {}
+// Включение валидации
+const enableValidation = (valClasses) => {
+  const formList = Array.from(document.querySelectorAll(valClasses.formSelector));
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(valClasses, formElement);
+
+    formValidators[formElement.name] = validator;
+
+    validator.enableValidation();
+  });
+};
+
+const initCard = (nameValue, linkValue, elementId, openPicViewFunct) => {
+  return new Card(nameValue, linkValue, elementId, openPicViewFunct);
+};
 
 // Вызов окна просмотра фотографии
 const openPicviewPopup = (link, name) => {
@@ -68,10 +77,6 @@ const openPicviewPopup = (link, name) => {
   openPopup(picviewPopup);
 };
 
-const setSaveBtnInactive = (buttonElement) => {
-  buttonElement.setAttribute("disabled", true);
-  buttonElement.classList.remove("form__save_active");
-};
 
 function openEditProfilePopup() {
   profNameInput.value = profileName.textContent;
@@ -105,7 +110,7 @@ function closeAddPhotoPopup() {
   addCardLinkInput.value = "";
 }
 
-function profileFormSubmitHandler() {
+function handleProfileFormSubmit() {
   profileName.textContent = profNameInput.value;
   profileProfession.textContent = profJobInput.value;
 
@@ -113,14 +118,14 @@ function profileFormSubmitHandler() {
 }
 
 function addCardFormSubmitHandler() {
-  const card = new Card(
-    addCardLinkInput.value,
+  const card = initCard(
     addCardfNameInput.value,
+    addCardLinkInput.value,
     "#element-template",
     openPicviewPopup
   );
   const cardElement = card.renderElements();
-  elements.prepend(cardElement);
+  element.prepend(cardElement);
 
   closeAddPhotoPopup();
 }
@@ -137,13 +142,12 @@ const closePopupByOutClick = (evt) => {
 // открыть
 openerProfileButton.addEventListener("click", () => {
   openEditProfilePopup();
-  // setSaveBtnInactive(profileFormSaveBtn);
 });
 
 // заполнить введенными данными
 profilEditPop.addEventListener("submit", function (evt) {
   evt.preventDefault();
-  profileFormSubmitHandler();
+  handleProfileFormSubmit();
 });
 
 // закрыть
@@ -154,7 +158,6 @@ closerProfileEdit.addEventListener("click", () => {
 // Слушатели попапа ввода новой фотки
 // открыть
 openerAddCardButton.addEventListener("click", () => {
-  setSaveBtnInactive(newCardSaveBtn);
   openPopup(newCardPopup);
 });
 
@@ -174,19 +177,16 @@ closerViewPhoto.addEventListener("click", () => {
   closePopup(picviewPopup);
 });
 
-formList.forEach((rawFormElement) => {
-  const formElement = new FormValidator(validClasses, rawFormElement);
-  formElement.enableValidation();
-});
+enableValidation(validClasses);
 
 // Накидываем карточек из уже имеющихся данных
 initialCards.forEach((item) => {
-  const card = new Card(
+  const card = initCard(
     item.name,
     item.link,
     "#element-template",
     openPicviewPopup
   );
   const cardElement = card.renderElements();
-  elements.append(cardElement);
+  element.append(cardElement);
 });
