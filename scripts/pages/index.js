@@ -45,8 +45,8 @@ const addCardLinkInput = newCardPopup.querySelector(
   ".popup_type_addCard .form__input_profession"
 );
 
-// Шаблон новой карточки и куда ее вставляем profileFormSubmitHandler
-const element = document.querySelector(".elements");
+// Шаблон новой карточки и куда ее вставляем profileFormSubmitHandler element
+const cardsContainer = document.querySelector(".elements");
 
 // Элементы просмотра фотографии
 const picviewPopupPhoto = picviewPopup.querySelector(".popup__photo");
@@ -65,8 +65,9 @@ const enableValidation = (valClasses) => {
   });
 };
 
-const initCard = (nameValue, linkValue, elementId, openPicViewFunct) => {
-  return new Card(nameValue, linkValue, elementId, openPicViewFunct);
+const initCard = (nameValue, linkValue) => {
+  const cardElement = new Card(nameValue, linkValue, "#element-template", openPicviewPopup);
+  return cardElement.renderElements();
 };
 
 // Вызов окна просмотра фотографии
@@ -120,12 +121,10 @@ function handleProfileFormSubmit() {
 function addCardFormSubmitHandler() {
   const card = initCard(
     addCardfNameInput.value,
-    addCardLinkInput.value,
-    "#element-template",
-    openPicviewPopup
+    addCardLinkInput.value
   );
-  const cardElement = card.renderElements();
-  element.prepend(cardElement);
+  formValidators["addCard"].deactivateSaveButton();
+  cardsContainer.prepend(card);
 
   closeAddPhotoPopup();
 }
@@ -158,6 +157,7 @@ closerProfileEdit.addEventListener("click", () => {
 // Слушатели попапа ввода новой фотки
 // открыть
 openerAddCardButton.addEventListener("click", () => {
+  formValidators["addCard"].deactivateSaveButton();
   openPopup(newCardPopup);
 });
 
@@ -183,10 +183,7 @@ enableValidation(validClasses);
 initialCards.forEach((item) => {
   const card = initCard(
     item.name,
-    item.link,
-    "#element-template",
-    openPicviewPopup
+    item.link
   );
-  const cardElement = card.renderElements();
-  element.append(cardElement);
+  cardsContainer.append(card);
 });
