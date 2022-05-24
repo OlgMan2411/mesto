@@ -7,15 +7,19 @@ export default class {
     this._activeSubmitButtonClass = valClasses.activeSubmitButtonClass;
     this._inputErrorClass = valClasses.inputErrorClass;
 
-    this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
-    this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
+    this._inputList = Array.from(
+      this._formElement.querySelectorAll(this._inputSelector)
+    );
+    this._buttonElement = this._formElement.querySelector(
+      this._submitButtonSelector
+    );
   }
 
   _hasInvalidInput() {
     return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
-  };
+  }
 
   _toggleButtonState() {
     if (this._hasInvalidInput()) {
@@ -36,16 +40,20 @@ export default class {
   }
 
   _showInputError(inputElement) {
-    const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
+    const errorElement = this._formElement.querySelector(
+      `#${inputElement.id}-error`
+    );
     inputElement.classList.add(this._inputErrorClass);
     errorElement.textContent = inputElement.validationMessage;
-  };
+  }
 
   _hideInputError(inputElement) {
-    const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
+    const errorElement = this._formElement.querySelector(
+      `#${inputElement.id}-error`
+    );
     inputElement.classList.remove(this._inputErrorClass);
     errorElement.textContent = "";
-  };
+  }
 
   _checkInputValidity(inputElement) {
     if (!inputElement.validity.valid) {
@@ -53,7 +61,7 @@ export default class {
     } else {
       this._hideInputError(inputElement);
     }
-  };
+  }
 
   _setEventListeners() {
     const inputList = Array.from(
@@ -69,7 +77,7 @@ export default class {
         this._toggleButtonState();
       });
     });
-  };
+  }
 
   resetErrors() {
     inputList.forEach((inputElement) => {
@@ -79,5 +87,5 @@ export default class {
 
   enableValidation() {
     this._setEventListeners();
-  };
-};
+  }
+}
