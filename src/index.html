@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mesto</title>
-  <link rel="stylesheet" href="pages/index.css">
+  <!-- <link rel="stylesheet" href="pages/index.css"> -->
 </head>
 <body class="root">   
 
@@ -51,7 +51,7 @@
                     <input 
                         class="form__input form__input_name" 
                         type="text" 
-                        name="Название достопримечательности" 
+                        name="placeName" 
                         placeholder="Название"
                         minlength="2"
                         maxlength="30"
@@ -62,7 +62,7 @@
                     <input 
                         class="form__input form__input_profession" 
                         type="url" 
-                        name="Ссылка на картинку" 
+                        name="pictLink" 
                         placeholder="Ссылка на картинку"                        
                         required
                         id="card-link"
@@ -83,21 +83,21 @@
     </div>
 
     <header class="header root__container root__container_margins_for-header">
-        <img class="header__logo" src="./images/vector.svg" alt="логотип Место">
+        <img class="header__logo" src=<%=require("./images/vector.svg")%> alt="логотип Место">
     </header>
 
     <main class="content">        
         <section class="profile root__container root__container_margins_for-profile">
-            <img class="profile__foto" src="./images/кусто.jpg" alt="фото Кусто">
+            <img class="profile__foto" src=<%=require("./images/кусто.jpg")%> alt="фото Кусто">
             <div class="profile__info">
                 <h1 class="profile__name">Жак-Ив Кусто</h1>
                 <button class="profile__edit-batton" type="button" name="edit">
-                    <img class="profile__pen" src="./images/pen.svg" alt="изображение ручки">
+                    <img class="profile__pen" src=<%=require("./images/pen.svg")%> alt="изображение ручки">
                 </button>
                 <p class="profile__profession">Исследователь океана</p>
             </div>
             <button class="profile__add-batton" type="button" name="add">
-                <img class="profile__cross" src="./images/cross.svg" alt="крестик">
+                <img class="profile__cross" src=<%=require("./images/cross.svg")%> alt="крестик">
             </button>
         </section>
         <div class="elements"></div>
@@ -118,10 +118,6 @@
         </div>
     </template>
 
-    <script type="module" src="./scripts/constants/cardsData.js"></script>
-    <script type="module" src="./scripts/constants/validClassesSelectors.js"></script>
-    <script type="module" src="./scripts/Card.js"></script>
-    <script type="module" src="./scripts/FormValidator.js"></script>
-    <script type="module" src="./scripts/pages/index.js"></script>        
+    <script type="module" src="./pages/index.js"></script>    
 </body>
 </html>
