@@ -1,12 +1,30 @@
-import '../pages/index.css';
+import "../pages/index.css";
 
 // Переменные
 import initialCards from "../scripts/utils/cardsData.js";
 import validClasses from "../scripts/utils/validClassesSelectors.js";
-import { cardTemplateSelector, containerSelector } from "../scripts/utils/cardSelectorClasses.js";
-import { popupEditProfileSelector, popupAddCardSelector, popupPicviewSelector, popupWithFormCloserSelector, popupWithPicveiwCloserSelector } from "../scripts/utils/popupSelectorsClasses.js";
-import { formSelector, formNameInputSelector, formProffInputSelector } from "../scripts/utils/formSelectors.js";
-import { profileNameSelector, profileProffSelector, openProfileEditBtnSelector, openProfileAddCardBtnSelector } from "../scripts/utils/profileSelectors.js";
+import {
+  cardTemplateSelector,
+  containerSelector,
+} from "../scripts/utils/cardSelectorsClasses.js";
+import {
+  popupEditProfileSelector,
+  popupAddCardSelector,
+  popupPicviewSelector,
+  popupWithFormCloserSelector,
+  popupWithPicveiwCloserSelector,
+} from "../scripts/utils/popupSelectorsClasses.js";
+import {
+  formSelector,
+  formNameInputSelector,
+  formValueInputSelector,
+} from "../scripts/utils/formSelectors.js";
+import {
+  profileNameSelector,
+  profileProffSelector,
+  openerProfileEditBtnSelector,
+  openerProfileAddCardBtnSelector,
+} from "../scripts/utils/profileSelectors.js";
 
 // Попапы
 import PopupWithImage from "../scripts/components/PopupWithImage.js";
@@ -16,16 +34,20 @@ import PopupWithForm from "../scripts/components/PopupWithForm.js";
 import FormValidator from "../scripts/components/FormValidator.js";
 import Section from "../scripts/components/Section.js"; // место наполнения карточками
 import Card from "../scripts/components/Card.js";
-import UserInfo from "../scripts/components/UserInfo.js"; // информация для профиля 
+import UserInfo from "../scripts/components/UserInfo.js"; // информация для профиля
 
 const profilInfo = new UserInfo({
-  name: profileNameSelector, 
-  profLink: profileProffSelector, 
+  name: profileNameSelector,
+  value: profileProffSelector,
 });
 
 // Открывашки
-const openerProfileButton = document.querySelector(openProfileEditBtnSelector);
-const openerAddCardButton = document.querySelector(openProfileAddCardBtnSelector);
+const openerProfileButton = document.querySelector(
+  openerProfileEditBtnSelector
+);
+const openerAddCardButton = document.querySelector(
+  openerProfileAddCardBtnSelector
+);
 
 // Попапы
 //  редактирования профиля
@@ -43,9 +65,11 @@ const closerProfileEdit = profilEditPop.querySelector(
 );
 
 const closerAddPhoto = newCardPopup.querySelector(
-   `${popupAddCardSelector} ${popupWithFormCloserSelector}`
-   );
-const closerViewPhoto = picviewPopup.querySelector(popupWithPicveiwCloserSelector);
+  `${popupAddCardSelector} ${popupWithFormCloserSelector}`
+);
+const closerViewPhoto = picviewPopup.querySelector(
+  popupWithPicveiwCloserSelector
+);
 
 const formValidators = {};
 // Включение валидации
@@ -66,10 +90,10 @@ enableValidation(validClasses);
 
 // Поля ввода профиля пользователя
 const profNameInput = profilEditPop.querySelector(
-  `${popupEditProfileSelector} ${formNameInputSelector}` 
+  `${popupEditProfileSelector} ${formNameInputSelector}`
 );
 const profJobInput = profilEditPop.querySelector(
-  `${popupEditProfileSelector} ${formProffInputSelector}` 
+  `${popupEditProfileSelector} ${formValueInputSelector}`
 );
 
 // Попапы всех видов и сразу слушатели
@@ -79,7 +103,7 @@ popupWithImage.setEventListeners();
 const popupAddCard = new PopupWithForm(
   {
     handlerSubmitForm: (data) => {
-      cardsList.addItem(createCard(data.name, data.profLink));
+      cardsList.addItem(createCard(data.placeName, data.pictLink));
       newCardPopup.querySelector(formSelector).reset();
       popupAddCard.close();
     },
@@ -91,7 +115,7 @@ popupAddCard.setEventListeners();
 const popupEditProfile = new PopupWithForm(
   {
     handlerSubmitForm: (data) => {
-      profilInfo.setUserInfo(data.name, data.profLink);
+      profilInfo.setUserInfo(data.name, data.value);
       popupEditProfile.close();
     },
   },
@@ -99,23 +123,23 @@ const popupEditProfile = new PopupWithForm(
 );
 popupEditProfile.setEventListeners();
 
-const createCard = (data) => {
+const createCard = (name, value) => {
   const card = new Card(
     {
-      name: data.name,
-      link: data.link,
-      handleCardClick: () => popupWithImage.open(data.name, data.link),
+      name: name,
+      value: value,
+      handleCardClick: () => popupWithImage.open(name, value),
     },
-    
+
     cardTemplateSelector
   );
-  return card.renderElements();
+  return card.makeCard();
 };
 
 const cardsList = new Section(
   {
     renderer: (item) => {
-      const cardElement = createCard(item);
+      const cardElement = createCard(item.name, item.link);
       cardsList.addItem(cardElement);
     },
   },
@@ -131,9 +155,10 @@ openerAddCardButton.addEventListener("click", () => {
 });
 
 openerProfileButton.addEventListener("click", () => {
+  const { name, value } = profilInfo.getUserInfo();
+  profNameInput.value = name;
+  profJobInput.value = value;
   popupEditProfile.open();
-  profNameInput.value = profilInfo.getUserInfo().name; //profileName.textContent;
-  profJobInput.value = profilInfo.getUserInfo().profLink; //profileProfession.textContent;
 });
 
 // Слушаем, закрываем

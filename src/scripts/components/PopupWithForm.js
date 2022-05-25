@@ -1,8 +1,5 @@
 import Popup from "./Popup.js";
-import {
-  formNameInputSelector,
-  formProffInputSelector,
-} from "../utils/formSelectors.js";
+import { formAnyInputSelector } from "../utils/formSelectors.js";
 
 export default class PopupWithForm extends Popup {
   constructor({ handlerSubmitForm }, popupSelector) {
@@ -13,12 +10,15 @@ export default class PopupWithForm extends Popup {
   }
 
   _getInputValues() {
-    const inputList = {};
-    inputList["name"] = this._popup.querySelector(formNameInputSelector).value;
-    inputList["profLink"] = this._popup.querySelector(
-      formProffInputSelector
-    ).value;
-    return inputList;
+    const inputList = Array.from(
+      this._popup.querySelectorAll(formAnyInputSelector)
+    );
+    const inputValues = {};
+    inputList.forEach(({ name, value }) => {
+      inputValues[name] = value;
+    });
+
+    return inputValues;
   }
 
   setEventListeners() {

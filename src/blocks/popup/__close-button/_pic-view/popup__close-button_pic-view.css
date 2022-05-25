@@ -1,10 +1,10 @@
-.popup__closed_picview {
+.popup__close-button_pic-view {
     /* top: -8px; */
     left: calc(100% + 8px);
 }
 
 @media screen and (max-width: 767px) {
-    .popup__closed_picview {
+    .popup__close-button_pic-view {
         position: absolute;
         top: -20px;
         left: 220px;
