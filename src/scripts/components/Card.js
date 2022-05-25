@@ -5,16 +5,12 @@ import {
   photoSelector,
   titleSelector,
   cardInContainerSelector,
-} from "../utils/cardSelectorClasses.js";
+} from "../utils/cardSelectorsClasses.js";
 
 export default class {
-  constructor({ name, link, handleCardClick }, cardTemplateSelector) {
+  constructor({ name, value, handleCardClick }, cardTemplateSelector) {
     this._name = name;
-    this._link = link;
-    this._likeElemClass = likeSelector;
-    this._deleteElemClass = deleteSelector;
-    this._picViewElemPhotoClass = photoSelector;
-    this._picViewElemTitleClass = titleSelector;
+    this._value = value;
 
     this._handleCardClick = handleCardClick;
     this._cardSelector = cardTemplateSelector;
@@ -32,16 +28,12 @@ export default class {
 
   setData(data) {
     this._name = data.name;
-    this._link = data.link;
-  }
-
-  getData() {
-    return { name: this._name, proflink: this._link };
+    this._value = data.value;
   }
 
   _handleLikeClick() {
     this._element
-      .querySelector(this._likeElemClass)
+      .querySelector(likeSelector)
       .classList.toggle(likeActivateClass);
   }
 
@@ -51,38 +43,31 @@ export default class {
   }
 
   _setEventListeners() {
-    this._element
-      .querySelector(this._likeElemClass)
-      .addEventListener("click", () => {
-        this._handleLikeClick();
-      });
+    this._element.querySelector(likeSelector).addEventListener("click", () => {
+      this._handleLikeClick();
+    });
 
     this._element
-      .querySelector(this._deleteElemClass)
+      .querySelector(deleteSelector)
       .addEventListener("click", () => {
         this._clearThisElement();
       });
 
-    this._element
-      .querySelector(this._picViewElemPhotoClass)
-      .addEventListener("click", () => {
-        this._handleCardClick(this._link, this._name);
-      });
+    this._element.querySelector(photoSelector).addEventListener("click", () => {
+      this._handleCardClick(this._value, this._name);
+    });
   }
 
-  renderElements() {
+  makeCard() {
     this._element = this._getTemplate();
 
     this._setEventListeners();
 
-    const dataPicView = this._element.querySelector(
-      this._picViewElemPhotoClass
-    );
+    const dataPicView = this._element.querySelector(photoSelector);
 
-    dataPicView.src = this._link;
+    dataPicView.src = this._value;
     dataPicView.alt = this._name;
-    this._element.querySelector(this._picViewElemTitleClass).textContent =
-      this._name;
+    this._element.querySelector(titleSelector).textContent = this._name;
 
     return this._element;
   }

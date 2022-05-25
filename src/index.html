@@ -3,21 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mesto</title>
-  <!-- <link rel="stylesheet" href="pages/index.css"> -->
+  <title>Mesto</title>  
 </head>
 <body class="root">   
 
     <div class="popup popup_type_profileEdit">        
         <div class="popup__container">            
-            <button class="popup__closed" type="button" name="close"></button>
+            <button class="popup__close-button" type="button" name="close"></button>
             <form class="form" name="editUser" novalidate>         
                 <h2 class="form__title">Редактировать профиль</h2>
                 <fieldset class="form__user-info">
                     <input 
                         class="form__input form__input_name" 
                         type="text" 
-                        name="Имя пользователя" 
+                        name="name" 
                         placeholder='Имя пользователя'
                         minlength="2"
                         maxlength="40"
@@ -28,7 +27,7 @@
                     <input 
                         class="form__input form__input_profession" 
                         type="text" 
-                        name="профессия" 
+                        name="value" 
                         placeholder="профессия"
                         minlength="2"
                         maxlength="200"
@@ -42,9 +41,9 @@
         </div>
     </div>
 
-    <div class="popup popup_type_addCard">        
+    <div class="popup popup_type_add-card">        
         <div class="popup__container">            
-            <button class="popup__closed" type="button" name="close"></button>
+            <button class="popup__close-button" type="button" name="close"></button>
             <form class="form" name="addCard" novalidate>         
                 <h2 class="form__title">Новое место</h2>
                 <fieldset class="form__user-info">
@@ -74,9 +73,9 @@
         </div>
     </div>
 
-    <div class="popup popup_type_picview">
+    <div class="popup popup_type_pic-view">
         <div class="popup__container popup__container_picview">            
-            <button class="popup__closed popup__closed_picview" type="button" name="close"></button>            
+            <button class="popup__close-button popup__close-button_pic-view" type="button" name="close"></button>            
             <img class="popup__photo" src="#" alt="">
             <h2 class="popup__title">Подпись к фото</h2>
         </div>

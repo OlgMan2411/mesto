@@ -64,13 +64,9 @@ export default class {
   }
 
   _setEventListeners() {
-    const inputList = Array.from(
-      this._formElement.querySelectorAll(this._inputSelector)
-    );
-
     this._toggleButtonState();
 
-    inputList.forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       inputElement.addEventListener("input", () => {
         this._checkInputValidity(inputElement);
 
@@ -80,7 +76,7 @@ export default class {
   }
 
   resetErrors() {
-    inputList.forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       this._hideInputError(inputElement);
     });
   }

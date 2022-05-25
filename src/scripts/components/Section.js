@@ -1,10 +1,15 @@
+import {
+  formNameInputSelector,
+  formValueInputSelector,
+} from "../utils/formSelectors.js";
+
 export default class Section {
   constructor({ renderer }, containerSelector) {
     this._renderer = renderer;
     this._container = document.querySelector(containerSelector);
 
-    this._name = this._container.querySelector(".form__input_name");
-    this._proflink = this._container.querySelector(".form__input_profession");
+    this._name = this._container.querySelector(formNameInputSelector);
+    this._proflink = this._container.querySelector(formValueInputSelector);
   }
 
   addItem(element) {
@@ -12,6 +17,6 @@ export default class Section {
   }
 
   renderItems(cards) {
-    cards.forEach((card) => this._renderer(card));
+    cards.forEach(this._renderer);
   }
 }
