@@ -36,7 +36,7 @@ import Section from "../scripts/components/Section.js"; // место напол
 import Card from "../scripts/components/Card.js";
 import UserInfo from "../scripts/components/UserInfo.js"; // информация для профиля
 
-const profilInfo = new UserInfo({
+const profileInfo = new UserInfo({
   name: profileNameSelector,
   value: profileProffSelector,
 });
@@ -57,7 +57,7 @@ const profilEditPop = document.querySelector(popupEditProfileSelector);
 const newCardPopup = document.querySelector(popupAddCardSelector);
 
 // открытия просмотра фото
-const picviewPopup = document.querySelector(popupPicviewSelector);
+const picViewPopup = document.querySelector(popupPicviewSelector);
 
 // Закрывашки
 const closerProfileEdit = profilEditPop.querySelector(
@@ -67,7 +67,7 @@ const closerProfileEdit = profilEditPop.querySelector(
 const closerAddPhoto = newCardPopup.querySelector(
   `${popupAddCardSelector} ${popupWithFormCloserSelector}`
 );
-const closerViewPhoto = picviewPopup.querySelector(
+const closerViewPhoto = picViewPopup.querySelector(
   popupWithPicveiwCloserSelector
 );
 
