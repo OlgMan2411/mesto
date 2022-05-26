@@ -115,7 +115,7 @@ popupAddCard.setEventListeners();
 const popupEditProfile = new PopupWithForm(
   {
     handlerSubmitForm: (data) => {
-      profilInfo.setUserInfo(data.name, data.value);
+      profileInfo.setUserInfo(data.name, data.value);
       popupEditProfile.close();
     },
   },
@@ -155,7 +155,7 @@ openerAddCardButton.addEventListener("click", () => {
 });
 
 openerProfileButton.addEventListener("click", () => {
-  const { name, value } = profilInfo.getUserInfo();
+  const { name, value } = profileInfo.getUserInfo();
   profNameInput.value = name;
   profJobInput.value = value;
   popupEditProfile.open();

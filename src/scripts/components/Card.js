@@ -14,6 +14,7 @@ export default class {
 
     this._handleCardClick = handleCardClick;
     this._cardSelector = cardTemplateSelector;
+    this._dataPicView = this._element.querySelector(photoSelector);
   }
 
   // клонируем содержимое тега template
