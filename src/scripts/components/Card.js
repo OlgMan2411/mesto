@@ -13,8 +13,7 @@ export default class {
     this._value = value;
 
     this._handleCardClick = handleCardClick;
-    this._cardSelector = cardTemplateSelector;
-    this._dataPicView = this._element.querySelector(photoSelector);
+    this._cardSelector = cardTemplateSelector;    
   }
 
   // клонируем содержимое тега template
@@ -54,20 +53,20 @@ export default class {
         this._clearThisElement();
       });
 
-    this._element.querySelector(photoSelector).addEventListener("click", () => {
-      this._handleCardClick(this._value, this._name);
-    });
+    this._dataPicView.addEventListener("click", () => {
+        this._handleCardClick(this._value, this._name);
+      });
+    
   }
 
   makeCard() {
     this._element = this._getTemplate();
+    this._dataPicView = this._element.querySelector(photoSelector);
+    
+    this._setEventListeners();    
 
-    this._setEventListeners();
-
-    const dataPicView = this._element.querySelector(photoSelector);
-
-    dataPicView.src = this._value;
-    dataPicView.alt = this._name;
+    this._dataPicView.src = this._value;
+    this._dataPicView.alt = this._name;
     this._element.querySelector(titleSelector).textContent = this._name;
 
     return this._element;

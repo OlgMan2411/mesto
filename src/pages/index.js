@@ -98,7 +98,7 @@ const profJobInput = profilEditPop.querySelector(
 
 // Попапы всех видов и сразу слушатели
 const popupWithImage = new PopupWithImage(popupPicviewSelector);
-popupWithImage.setEventListeners();
+// popupWithImage.setEventListeners();
 
 const popupAddCard = new PopupWithForm(
   {
