@@ -12,14 +12,14 @@
     "url": "git+https://github.com/OlgMan2411/mesto.git"
   },
   "author": "OlMan",
-  "license": "",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/OlgMan2411/mesto/issues"
   },
   "homepage": "https://github.com/OlgMan2411/mesto#readme",
   "devDependencies": {
-    "@babel/core": "^7.18.0",
-    "@babel/preset-env": "^7.18.0",
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
     "autoprefixer": "^10.4.7",
     "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",
