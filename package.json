@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "rimraf dist && webpack --mode production",
-    "dev": "webpack serve"
+    "dev": "webpack serve",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
   },
   "repository": {
     "type": "git",
@@ -24,15 +26,18 @@
     "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.7.1",
-    "cssnano": "^5.1.9",
+    "cssnano": "^5.1.11",
     "html-webpack-plugin": "^5.5.0",
+    "i": "^0.3.7",
     "mini-css-extract-plugin": "^2.6.0",
     "postcss-loader": "^7.0.0",
     "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.9.0"
+    "webpack-dev-server": "^4.9.2"
   },
   "dependencies": {
-    "core-js": "^3.22.7"
-  }
+    "core-js": "^3.22.8",
+    "gh-pages": "^4.0.0"
+  },
+  "keywords": []
 }
