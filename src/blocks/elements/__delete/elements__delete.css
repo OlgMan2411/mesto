@@ -13,6 +13,7 @@
     background-size: cover;
     cursor: pointer;
     z-index: 40;
+    visibility: hidden;
 }
 
 .elements__delete:hover {

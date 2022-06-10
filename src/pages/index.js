@@ -1,7 +1,7 @@
 import "../pages/index.css";
 
 // Переменные
-import initialCards from "../scripts/utils/cardsData.js";
+// import initialCards from "../scripts/utils/cardsData.js";
 import validClasses from "../scripts/utils/validClassesSelectors.js";
 import {
   cardTemplateSelector,
@@ -11,19 +11,24 @@ import {
   popupEditProfileSelector,
   popupAddCardSelector,
   popupPicviewSelector,
+  popupDelCardSelector,
+  popupEditAvatarSelector,
   popupWithFormCloserSelector,
   popupWithPicveiwCloserSelector,
 } from "../scripts/utils/popupSelectorsClasses.js";
 import {
   formSelector,
+  formDelCardSelector,
   formNameInputSelector,
   formValueInputSelector,
 } from "../scripts/utils/formSelectors.js";
 import {
   profileNameSelector,
   profileProffSelector,
+  profileAvatarSelector,
   openerProfileEditBtnSelector,
   openerProfileAddCardBtnSelector,
+  openerProfileEditAvatarBtnSelector,
 } from "../scripts/utils/profileSelectors.js";
 
 // Попапы
@@ -36,10 +41,58 @@ import Section from "../scripts/components/Section.js"; // место напол
 import Card from "../scripts/components/Card.js";
 import UserInfo from "../scripts/components/UserInfo.js"; // информация для профиля
 
+import userCreds from "../scripts/utils/userCreds.js";
+
+const cardsList = new Section(
+  {
+    renderer: (item) => {
+      cardsList.addItem(createCard(item, myUserId));
+    },
+  },
+  containerSelector
+);
+
+import Api from "../scripts/components/Api.js";
+
+const avatarElement = document.querySelector(profileAvatarSelector);
+
+const api = new Api({
+  url: `https://mesto.nomoreparties.co/v1/${userCreds.cohortId}`,
+  headers: {
+    authorization: userCreds.authToken,
+    'Content-Type': 'application/json'
+  }
+})
+
+// Этим переменным присвоим значение потом, после скачивания данных с сервера
+let userName;
+let userAbout;
+let userAvatar;
+let myUserId;
+
+Promise.all([api.getUserInfo(), api.getCards()])
+  .then(([data, cards]) => {
+    profileInfo.setUserInfo({ name: data.name, value: data.about });
+
+    userName = data.name;
+    userAbout = data.about;
+    userAvatar = data.avatar;
+    myUserId = data._id;
+    avatarElement.src = userAvatar
+
+    cardsList.renderItems(cards);
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
+
 const profileInfo = new UserInfo({
-  name: profileNameSelector,
-  value: profileProffSelector,
+  nameSelector: profileNameSelector,
+  valueSelector: profileProffSelector,
+  avatarSelector: profileAvatarSelector,
 });
+
 
 // Открывашки
 const openerProfileButton = document.querySelector(
@@ -48,6 +101,10 @@ const openerProfileButton = document.querySelector(
 const openerAddCardButton = document.querySelector(
   openerProfileAddCardBtnSelector
 );
+const openerEditAvatarButton = document.querySelector(
+  openerProfileEditAvatarBtnSelector
+);
+
 
 // Попапы
 //  редактирования профиля
@@ -56,8 +113,6 @@ const profilEditPop = document.querySelector(popupEditProfileSelector);
 // открытия новой карточки с фото
 const newCardPopup = document.querySelector(popupAddCardSelector);
 
-// открытия просмотра фото
-const picViewPopup = document.querySelector(popupPicviewSelector);
 
 // Закрывашки
 const closerProfileEdit = profilEditPop.querySelector(
@@ -67,12 +122,22 @@ const closerProfileEdit = profilEditPop.querySelector(
 const closerAddPhoto = newCardPopup.querySelector(
   `${popupAddCardSelector} ${popupWithFormCloserSelector}`
 );
-const closerViewPhoto = picViewPopup.querySelector(
-  popupWithPicveiwCloserSelector
-);
 
-const formValidators = {};
+const closerViewPhoto = document
+  .querySelector(popupPicviewSelector)
+  .querySelector(popupWithPicveiwCloserSelector);
+
+const closerDelCard = document
+  .querySelector(popupDelCardSelector)
+  .querySelector(popupWithFormCloserSelector);
+
+const closerEditAvatar = document
+  .querySelector(popupEditAvatarSelector)
+  .querySelector(popupWithFormCloserSelector);
+
+
 // Включение валидации
+const formValidators = {};
 const enableValidation = (valClasses) => {
   const formList = Array.from(
     document.querySelectorAll(valClasses.formSelector)
@@ -97,15 +162,53 @@ const profJobInput = profilEditPop.querySelector(
 );
 
 // Попапы всех видов и сразу слушатели
+const popupEditAvatar = new PopupWithForm({
+  handlerSubmitForm: (data) => {
+    popupEditAvatar.renderLoading(true);
+    api.editAvatar({
+      avatar: data.pictLink
+    })
+      .then(() => {
+        popupEditAvatar.close();
+        window.location.reload();
+      })
+      .catch(err => console.log(err))
+      .finally(() => popupEditAvatar.renderLoading(false));
+  },
+}, popupEditAvatarSelector);
+popupEditAvatar.setEventListeners();
+
+const popupDelCard = new PopupWithForm({
+  handlerSubmitForm: () => {
+    api.deleteElement().then(() => {
+      popupDelCard.close();
+      window.location.reload();
+    }).catch(err => console.log(err));
+
+    popupDelCard.close();
+  },
+},
+  popupDelCardSelector);
+popupDelCard.setEventListeners();
+
 const popupWithImage = new PopupWithImage(popupPicviewSelector);
 // popupWithImage.setEventListeners();
 
 const popupAddCard = new PopupWithForm(
   {
     handlerSubmitForm: (data) => {
-      cardsList.addItem(createCard(data.placeName, data.pictLink));
-      newCardPopup.querySelector(formSelector).reset();
-      popupAddCard.close();
+      popupEditAvatar.renderLoading(true);
+      api.createElement({
+        name: data.placeName,
+        link: data.pictLink
+      })
+        .then((data) => {
+          cardsList.addItem(createCard(data, myUserId));
+          newCardPopup.querySelector(formSelector).reset();
+          popupAddCard.close();
+        })
+        .catch(err => console.log(err))
+        .finally(() => popupEditAvatar.renderLoading(false));
     },
   },
   popupAddCardSelector
@@ -115,7 +218,16 @@ popupAddCard.setEventListeners();
 const popupEditProfile = new PopupWithForm(
   {
     handlerSubmitForm: (data) => {
-      profileInfo.setUserInfo(data.name, data.value);
+      popupEditAvatar.renderLoading(true);
+      api.updateUserInfo({
+        name: data.name,
+        about: data.value
+      }).then(data => {
+        profileInfo.setUserInfo({ name: data.name, value: data.about });
+      })
+        .catch(err => console.log(err))
+        .finally(() => popupEditAvatar.renderLoading(false));
+
       popupEditProfile.close();
     },
   },
@@ -123,30 +235,28 @@ const popupEditProfile = new PopupWithForm(
 );
 popupEditProfile.setEventListeners();
 
-const createCard = (name, value) => {
+const createCard = (data, userId) => {
   const card = new Card(
     {
-      name: name,
-      value: value,
-      handleCardClick: () => popupWithImage.open(name, value),
+      data,
+      userId,
+      handleCardClick: () => popupWithImage.open(data.name, data.link),
+      handleDelClick: () => {
+        // console.log('Открываем попап удаления. Здесь id: ' + data._id);
+        document.querySelector(formDelCardSelector).id = data._id;
+        popupDelCard.open();
+      },
+      handleLikeCount: () => {
+        api.setLikeState(card.likeState, data._id).then(data => {
+          card.setLikesNum(data.likes.length);
+        }).catch(err => console.log(err));
+      }
     },
 
     cardTemplateSelector
   );
   return card.makeCard();
 };
-
-const cardsList = new Section(
-  {
-    renderer: (item) => {
-      const cardElement = createCard(item.name, item.link);
-      cardsList.addItem(cardElement);
-    },
-  },
-  containerSelector
-);
-
-cardsList.renderItems(initialCards);
 
 // Слушаем, открываем
 openerAddCardButton.addEventListener("click", () => {
@@ -155,10 +265,13 @@ openerAddCardButton.addEventListener("click", () => {
 });
 
 openerProfileButton.addEventListener("click", () => {
-  const { name, value } = profileInfo.getUserInfo();
-  profNameInput.value = name;
-  profJobInput.value = value;
+  profNameInput.value = userName;
+  profJobInput.value = userAbout;
   popupEditProfile.open();
+});
+
+openerEditAvatarButton.addEventListener("click", () => {
+  popupEditAvatar.open();
 });
 
 // Слушаем, закрываем
@@ -172,4 +285,12 @@ closerProfileEdit.addEventListener("click", () => {
 
 closerAddPhoto.addEventListener("click", () => {
   popupAddCard.close();
+});
+
+closerDelCard.addEventListener("click", () => {
+  popupDelCard.close();
+});
+
+closerEditAvatar.addEventListener("click", () => {
+  popupEditAvatar.close();
 });

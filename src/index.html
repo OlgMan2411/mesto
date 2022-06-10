@@ -73,6 +73,37 @@
         </div>
     </div>
 
+    <div class="popup popup_type_del-card">        
+        <div class="popup__container">            
+            <button class="popup__close-button" type="button" name="close"></button>
+            <form class="form form_del-card" name="delCard" id="" novalidate>         
+                <h2 class="form__title">Вы уверены?</h2>                
+                <button class="form__save" type="submit" name="delete" disabled>Да</button>  
+            </form>            
+        </div>
+    </div>
+    
+    <div class="popup popup_type_avatar-edit">        
+        <div class="popup__container">            
+            <button class="popup__close-button" type="button" name="close"></button>
+            <form class="form form_del-card" name="delCard" id="" novalidate>         
+                <h2 class="form__title">Обновить аватар?</h2>                
+                <fieldset class="form__user-info">                    
+                    <input 
+                        class="form__input form__input_profession" 
+                        type="url" 
+                        name="pictLink" 
+                        placeholder="Ссылка фото аватара"                        
+                        required
+                        id="card-link"
+                    />
+                    <span class="form__input-error" id="card-link-error" ></span>
+                </fieldset>
+                <button class="form__save" type="submit" name="delete" disabled>Сохранить</button>  
+            </form>            
+        </div>
+    </div>
+
     <div class="popup popup_type_pic-view">
         <div class="popup__container popup__container_picview">            
             <button class="popup__close-button popup__close-button_pic-view" type="button" name="close"></button>            
@@ -87,7 +118,11 @@
 
     <main class="content">        
         <section class="profile root__container root__container_margins_for-profile">
-            <img class="profile__foto" src=<%=require("./images/кусто.jpg")%> alt="фото Кусто">
+            <div class="profile__container-foto">
+                <button class="profile__foto-edit" type="button" name="avatar edit"></button>
+                <img class="profile__foto" src=<%=require("./images/кусто.jpg")%> alt="фото Кусто">
+            </div>
+            
             <div class="profile__info">
                 <h1 class="profile__name">Жак-Ив Кусто</h1>
                 <button class="profile__edit-batton" type="button" name="edit">
@@ -107,12 +142,16 @@
     </footer>
 
     <template id='element-template'>
-        <div class="elements__element">            
+        <div class="elements__element" id="">            
             <img class="elements__foto" src="#" alt="#">
             <button class="elements__delete" type="button" name="Удалить"></button>
             <div class="elements__group">
                 <h2 class="elements__title"></h2>
-                <button class="elements__like" type="button" name="like"></button>
+                <div class="elements__like-group">                    
+                    <button class="elements__like" type="button" name="like"></button>
+                    <p class="elements__like-count">10</p>
+                </div>
+                
             </div>            
         </div>
     </template>    
