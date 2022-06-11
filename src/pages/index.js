@@ -13,12 +13,8 @@ import {
   popupPicviewSelector,
   popupDelCardSelector,
   popupEditAvatarSelector,
-  popupWithFormCloserSelector,
-  popupWithPicveiwCloserSelector,
 } from "../scripts/utils/popupSelectorsClasses.js";
 import {
-  formSelector,
-  formDelCardSelector,
   formNameInputSelector,
   formValueInputSelector,
 } from "../scripts/utils/formSelectors.js";
@@ -40,6 +36,7 @@ import FormValidator from "../scripts/components/FormValidator.js";
 import Section from "../scripts/components/Section.js"; // место наполнения карточками
 import Card from "../scripts/components/Card.js";
 import UserInfo from "../scripts/components/UserInfo.js"; // информация для профиля
+import PopupDelCardSubmit from '../scripts/components/PopupDelCardSubmit.js'
 
 import userCreds from "../scripts/utils/userCreds.js";
 
@@ -64,21 +61,14 @@ const api = new Api({
   }
 })
 
-// Этим переменным присвоим значение потом, после скачивания данных с сервера
-let userName;
-let userAbout;
-let userAvatar;
 let myUserId;
 
 Promise.all([api.getUserInfo(), api.getCards()])
   .then(([data, cards]) => {
     profileInfo.setUserInfo({ name: data.name, value: data.about });
 
-    userName = data.name;
-    userAbout = data.about;
-    userAvatar = data.avatar;
     myUserId = data._id;
-    avatarElement.src = userAvatar
+    avatarElement.src = data.avatar
 
     cardsList.renderItems(cards);
   })
@@ -109,32 +99,6 @@ const openerEditAvatarButton = document.querySelector(
 // Попапы
 //  редактирования профиля
 const profilEditPop = document.querySelector(popupEditProfileSelector);
-
-// открытия новой карточки с фото
-const newCardPopup = document.querySelector(popupAddCardSelector);
-
-
-// Закрывашки
-const closerProfileEdit = profilEditPop.querySelector(
-  `${popupEditProfileSelector} ${popupWithFormCloserSelector}`
-);
-
-const closerAddPhoto = newCardPopup.querySelector(
-  `${popupAddCardSelector} ${popupWithFormCloserSelector}`
-);
-
-const closerViewPhoto = document
-  .querySelector(popupPicviewSelector)
-  .querySelector(popupWithPicveiwCloserSelector);
-
-const closerDelCard = document
-  .querySelector(popupDelCardSelector)
-  .querySelector(popupWithFormCloserSelector);
-
-const closerEditAvatar = document
-  .querySelector(popupEditAvatarSelector)
-  .querySelector(popupWithFormCloserSelector);
-
 
 // Включение валидации
 const formValidators = {};
@@ -168,9 +132,11 @@ const popupEditAvatar = new PopupWithForm({
     api.editAvatar({
       avatar: data.pictLink
     })
-      .then(() => {
+      .then((data) => {
+        profileInfo.setUserAvatar(data.avatar)
         popupEditAvatar.close();
-        window.location.reload();
+        // window.location.reload();
+        ;
       })
       .catch(err => console.log(err))
       .finally(() => popupEditAvatar.renderLoading(false));
@@ -178,37 +144,26 @@ const popupEditAvatar = new PopupWithForm({
 }, popupEditAvatarSelector);
 popupEditAvatar.setEventListeners();
 
-const popupDelCard = new PopupWithForm({
-  handlerSubmitForm: () => {
-    api.deleteElement().then(() => {
-      popupDelCard.close();
-      window.location.reload();
-    }).catch(err => console.log(err));
-
-    popupDelCard.close();
-  },
-},
-  popupDelCardSelector);
+const popupDelCard = new PopupDelCardSubmit(popupDelCardSelector);
 popupDelCard.setEventListeners();
 
 const popupWithImage = new PopupWithImage(popupPicviewSelector);
-// popupWithImage.setEventListeners();
+popupWithImage.setEventListeners();
 
 const popupAddCard = new PopupWithForm(
   {
     handlerSubmitForm: (data) => {
-      popupEditAvatar.renderLoading(true);
+      popupAddCard.renderLoading(true);
       api.createElement({
         name: data.placeName,
         link: data.pictLink
       })
         .then((data) => {
           cardsList.addItem(createCard(data, myUserId));
-          newCardPopup.querySelector(formSelector).reset();
           popupAddCard.close();
         })
         .catch(err => console.log(err))
-        .finally(() => popupEditAvatar.renderLoading(false));
+        .finally(() => popupAddCard.renderLoading(false));
     },
   },
   popupAddCardSelector
@@ -218,7 +173,7 @@ popupAddCard.setEventListeners();
 const popupEditProfile = new PopupWithForm(
   {
     handlerSubmitForm: (data) => {
-      popupEditAvatar.renderLoading(true);
+      popupEditProfile.renderLoading(true);
       api.updateUserInfo({
         name: data.name,
         about: data.value
@@ -226,7 +181,7 @@ const popupEditProfile = new PopupWithForm(
         profileInfo.setUserInfo({ name: data.name, value: data.about });
       })
         .catch(err => console.log(err))
-        .finally(() => popupEditAvatar.renderLoading(false));
+        .finally(() => popupEditProfile.renderLoading(false));
 
       popupEditProfile.close();
     },
@@ -236,23 +191,36 @@ const popupEditProfile = new PopupWithForm(
 popupEditProfile.setEventListeners();
 
 const createCard = (data, userId) => {
+  const cardId = data._id
   const card = new Card(
     {
       data,
       userId,
       handleCardClick: () => popupWithImage.open(data.name, data.link),
-      handleDelClick: () => {
-        // console.log('Открываем попап удаления. Здесь id: ' + data._id);
-        document.querySelector(formDelCardSelector).id = data._id;
-        popupDelCard.open();
-      },
+
       handleLikeCount: () => {
-        api.setLikeState(card.likeState, data._id).then(data => {
+        api.setLikeState(card.likeState, cardId).then(data => {
           card.setLikesNum(data.likes.length);
         }).catch(err => console.log(err));
+      },
+
+      handleSubmitDel: () => {
+        popupDelCard.open();
+
+        popupDelCard.handlerSubmitAct(() => {
+          // console.log('Дошло до отправки на сервер');
+          api.deleteElement(cardId)
+            .then(() => {
+              // const id = elementDelCardId.getAttribute('id')
+              // console.log(`Удаляем карту с id ${cardId}`);            
+
+              card.clearThisElement();
+              popupDelCard.close();
+            })
+            .catch(err => console.log(err));
+        });
       }
     },
-
     cardTemplateSelector
   );
   return card.makeCard();
@@ -265,8 +233,9 @@ openerAddCardButton.addEventListener("click", () => {
 });
 
 openerProfileButton.addEventListener("click", () => {
-  profNameInput.value = userName;
-  profJobInput.value = userAbout;
+  const userData = profileInfo.getUserInfo()
+  profNameInput.value = userData.name;
+  profJobInput.value = userData.value;
   popupEditProfile.open();
 });
 
@@ -274,23 +243,4 @@ openerEditAvatarButton.addEventListener("click", () => {
   popupEditAvatar.open();
 });
 
-// Слушаем, закрываем
-closerViewPhoto.addEventListener("click", () => {
-  popupWithImage.close();
-});
 
-closerProfileEdit.addEventListener("click", () => {
-  popupEditProfile.close();
-});
-
-closerAddPhoto.addEventListener("click", () => {
-  popupAddCard.close();
-});
-
-closerDelCard.addEventListener("click", () => {
-  popupDelCard.close();
-});
-
-closerEditAvatar.addEventListener("click", () => {
-  popupEditAvatar.close();
-});

@@ -1,25 +1,30 @@
 import Popup from "./Popup.js";
-import { formAnyInputSelector, formSaveBtnSelector } from "../utils/formSelectors.js";
+import { formSelector, formAnyInputSelector, formSaveBtnSelector } from "../utils/formSelectors.js";
 
 export default class PopupWithForm extends Popup {
   constructor({ handlerSubmitForm }, popupSelector) {
-    //name, link
     super(popupSelector);
     this._saveBtnElem = this._popup.querySelector(formSaveBtnSelector);
     this._saveBtnText = this._saveBtnElem.textContent;
     this._handlerSubmitForm = handlerSubmitForm;
+    this._inputList = Array.from(
+      this._popup.querySelectorAll(formAnyInputSelector)
+    );
   }
 
   _getInputValues() {
-    const inputList = Array.from(
-      this._popup.querySelectorAll(formAnyInputSelector)
-    );
     const inputValues = {};
-    inputList.forEach(({ name, value }) => {
+    this._inputList.forEach(({ name, value }) => {
       inputValues[name] = value;
     });
 
     return inputValues;
+  }
+
+  close() {
+    super.close();
+    this._popup.querySelector(formSelector).reset();
+
   }
 
   renderLoading = (boolean) => {

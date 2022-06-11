@@ -1,29 +1,31 @@
 import {
   popupOpenerClass,
   popupWithFormCloserSelector,
+
+
 } from "../utils/popupSelectorsClasses.js";
 
 export default class Popup {
   constructor(popupSelector) {
     this._popupSelector = popupSelector;
-    this._closerSelector = popupWithFormCloserSelector;
     this._openerClass = popupOpenerClass;
 
     this._popup = document.querySelector(this._popupSelector);
+    this._closerElem = this._popup.querySelector(popupWithFormCloserSelector);
     this._handleEscClose = this._handleEscClose.bind(this);
     this._handleOutClick = this._handleOutClick.bind(this);
+    this.close = this.close.bind(this);
   }
 
   open() {
     this._popup.classList.add(this._openerClass);
     document.addEventListener("keydown", this._handleEscClose);
-    this._popup.addEventListener("click", this._handleOutClick);
   }
 
   close() {
     this._popup.classList.remove(this._openerClass);
-    document.removeEventListener("keydown", this._handleEscClose);
-    this._popup.removeEventListener("click", this._handleOutClick);
+    // document.removeEventListener("keydown", this._handleEscClose);
+    // this._popup.removeEventListener("click", this._handleOutClick);
   }
 
   _handleEscClose(event) {
@@ -43,5 +45,6 @@ export default class Popup {
 
   setEventListeners() {
     this._popup.addEventListener("click", this._handleOutClick);
+    this._closerElem.addEventListener("click", this.close);
   }
 }

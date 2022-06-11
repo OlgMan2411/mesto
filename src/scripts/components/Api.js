@@ -1,4 +1,4 @@
-import { formDelCardSelector } from "../utils/formSelectors.js";
+// import { formDelCardSelector } from "../utils/formSelectors.js";
 
 export default class Api {
     constructor(config) {
@@ -64,9 +64,7 @@ export default class Api {
         }
     }
 
-    deleteElement() {
-        const cardId = document.querySelector(formDelCardSelector).id;
-
+    deleteElement(cardId) {
         return fetch(`${this._urlCards}/${cardId}`, {
             method: 'DELETE',
             headers: this._headers,

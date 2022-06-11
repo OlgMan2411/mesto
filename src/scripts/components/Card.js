@@ -10,7 +10,7 @@ import {
 } from "../utils/cardSelectorsClasses.js";
 
 export default class {
-  constructor({ data, userId, handleCardClick, handleDelClick, handleLikeCount }, cardTemplateSelector) {
+  constructor({ data, userId, handleCardClick, handleLikeCount, handleSubmitDel }, cardTemplateSelector) {
     this._name = data.name;
     this._value = data.link;
     this._userId = userId;
@@ -18,11 +18,12 @@ export default class {
 
     this._cardId = data._id;
     this._ownerId = data.owner._id;
-    this._likeCount = data.likes.length;
+    this._likes = data.likes;
+    this._likeCount = this._likes.length;
 
     this._handleCardClick = handleCardClick;
-    this._handleDelClick = handleDelClick;
     this._handleLikeCount = handleLikeCount;
+    this._handleSubmitDel = handleSubmitDel
     this._cardSelector = cardTemplateSelector;
   }
 
@@ -46,15 +47,14 @@ export default class {
   }
 
   _handleLikeClick() {
-    this._element
-      .querySelector(likeSelector)
+    this._likeElem
       .classList.toggle(likeActivateClass);
     this.likeState = !this.likeState;
 
   }
 
-  _clearThisElement() {
-    // this._element.remove();
+  clearThisElement() {
+    this._element.remove();
     this._element = null;
   }
 
@@ -67,9 +67,7 @@ export default class {
     this._element
       .querySelector(deleteSelector)
       .addEventListener("click", () => {
-        console.log('Подаем в открытие попапа удаления: ' + this._cardId)
-        this._handleDelClick();
-        this._clearThisElement();
+        this._handleSubmitDel();
       });
 
     this._dataPicView.addEventListener("click", () => {
@@ -79,6 +77,7 @@ export default class {
 
   makeCard() {
     this._element = this._getTemplate();
+    this._likeElem = this._element.querySelector(likeSelector);
 
     if (this._ownerId === this._userId) {
       this._element.querySelector(deleteSelector).classList.add(deleteVisibleClass)
@@ -91,6 +90,12 @@ export default class {
     this._element.id = this._cardId;
     this._dataPicView.src = this._value;
     this._dataPicView.alt = this._name;
+
+    if (this._likes.some((likerObj => likerObj._id === this._ownerId))) {
+      this._likeElem.classList.add(likeActivateClass);
+      this.likeState = true;
+    }
+
     this.setLikesNum(this._likeCount);
     this._element.querySelector(titleSelector).textContent = this._name;
 
