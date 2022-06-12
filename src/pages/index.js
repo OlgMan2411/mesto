@@ -179,11 +179,10 @@ const popupEditProfile = new PopupWithForm(
         about: data.value
       }).then(data => {
         profileInfo.setUserInfo({ name: data.name, value: data.about });
+        popupEditProfile.close();
       })
         .catch(err => console.log(err))
-        .finally(() => popupEditProfile.renderLoading(false));
-
-      popupEditProfile.close();
+        .finally(() => popupEditProfile.renderLoading(false));      
     },
   },
   popupEditProfileSelector
